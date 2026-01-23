@@ -1,0 +1,21 @@
+{
+  "name": "helloworld-app",
+  "version": "1.0.0",
+  "description": "HelloWorld application built with Vue 3 and Vite",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.5.24",
+    "vue-router": "^4.4.5",
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.5"
+  }
+}
+
