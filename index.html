@@ -2,13 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HelloWorld</title>
+    <meta name="description" content="HelloWorld Application - Government of Alberta" />
+    <meta name="author" content="Government of Alberta" />
+    <meta name="theme-color" content="#0070C4" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    
+    <title>HelloWorld - Government of Alberta</title>
   </head>
   <body>
+    <!-- No JavaScript fallback -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>This application requires JavaScript to function. Please enable JavaScript in your browser settings.</p>
+      </div>
+    </noscript>
+    
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
+
 

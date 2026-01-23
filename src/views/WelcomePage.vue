@@ -2,12 +2,20 @@
 /**
  * WelcomePage Component - Entry Form
  * 
+ * User entry form with name and date inputs.
+ * Implements Government of Alberta Design System and WCAG 2.1 AA standards.
+ * 
  * Requirements:
  * - E-001-F-006: Form Validation (Name and Date required)
- * - E-001-F-007: Error Handling
+ * - E-001-F-007: Error Handling with accessible announcements
+ * 
+ * @component
  */
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { BaseButton, BaseInput, BaseCard } from '@/components/ui'
+import { useFormValidation } from '@/composables/useFormValidation'
+import { ROUTES } from '@/constants'
 
 const router = useRouter()
 
@@ -17,74 +25,50 @@ const formData = reactive({
   date: ''
 })
 
-// Validation errors (E-001-F-007)
-const errors = reactive({
-  name: '',
-  date: ''
-})
+// Form validation using composable
+const {
+  errors,
+  validateName,
+  validateDate,
+  clearError
+} = useFormValidation({ name: '', date: '' })
 
 // Submission state
 const isSubmitting = ref(false)
 
 /**
- * Validate name field (E-001-F-006)
+ * Handle field blur for validation
+ * @param {string} field - Field name to validate
  */
-function validateName() {
-  const name = formData.name.trim()
-  
-  if (!name) {
-    errors.name = 'Name is required'
-    return false
+function handleBlur(field) {
+  if (field === 'name') {
+    validateName(formData.name)
+  } else if (field === 'date') {
+    validateDate(formData.date)
   }
-  
-  if (name.length < 2) {
-    errors.name = 'Name must be at least 2 characters'
-    return false
-  }
-  
-  errors.name = ''
-  return true
 }
 
 /**
- * Validate date field (E-001-F-006)
+ * Handle input to clear errors
+ * @param {string} field - Field name
  */
-function validateDate() {
-  if (!formData.date) {
-    errors.date = 'Date is required'
-    return false
-  }
-  
-  const selectedDate = new Date(formData.date)
-  
-  if (isNaN(selectedDate.getTime())) {
-    errors.date = 'Please enter a valid date'
-    return false
-  }
-  
-  errors.date = ''
-  return true
-}
-
-/**
- * Clear error on input
- */
-function clearError(field) {
-  errors[field] = ''
+function handleInput(field) {
+  clearError(field)
 }
 
 /**
  * Handle form submission
+ * Validates all fields and navigates to response page on success.
  */
 function handleSubmit() {
   isSubmitting.value = true
   
-  const isNameValid = validateName()
-  const isDateValid = validateDate()
+  const isNameValid = validateName(formData.name)
+  const isDateValid = validateDate(formData.date)
   
   if (isNameValid && isDateValid) {
     router.push({
-      name: 'Response',
+      name: ROUTES.RESPONSE,
       query: {
         name: formData.name.trim(),
         date: formData.date
@@ -98,63 +82,52 @@ function handleSubmit() {
 
 <template>
   <div class="welcome-page">
-    <h2 class="page-title">Welcome</h2>
+    <h2 class="welcome-page__title">Welcome</h2>
     
-    <p class="page-description">
-      Please enter your information below.
+    <p class="welcome-page__description">
+      Please enter your information below to receive a personalized greeting.
     </p>
 
-    <form @submit.prevent="handleSubmit" class="card form-card" novalidate>
-      <!-- Name Field -->
-      <div class="form-group">
-        <label for="name" class="form-label">
-          Name <span class="required" aria-hidden="true">*</span>
-          <span class="sr-only">(required)</span>
-        </label>
-        <input
+    <BaseCard class="welcome-page__card" aria-label="Welcome form">
+      <form @submit.prevent="handleSubmit" novalidate>
+        <!-- Name Field -->
+        <BaseInput
           id="name"
           v-model="formData.name"
+          label="Name"
           type="text"
-          class="form-input"
-          :class="{ 'form-input-error': errors.name }"
           placeholder="Enter your name"
-          aria-describedby="name-error"
-          :aria-invalid="errors.name ? 'true' : 'false'"
-          @input="clearError('name')"
-          @blur="validateName"
+          autocomplete="name"
+          required
+          :error="errors.name"
+          @blur="handleBlur('name')"
+          @input="handleInput('name')"
         />
-        <p v-if="errors.name" id="name-error" class="error-message" role="alert">
-          {{ errors.name }}
-        </p>
-      </div>
 
-      <!-- Date Field -->
-      <div class="form-group">
-        <label for="date" class="form-label">
-          Date <span class="required" aria-hidden="true">*</span>
-          <span class="sr-only">(required)</span>
-        </label>
-        <input
+        <!-- Date Field -->
+        <BaseInput
           id="date"
           v-model="formData.date"
+          label="Date"
           type="date"
-          class="form-input"
-          :class="{ 'form-input-error': errors.date }"
-          aria-describedby="date-error"
-          :aria-invalid="errors.date ? 'true' : 'false'"
-          @input="clearError('date')"
-          @blur="validateDate"
+          required
+          :error="errors.date"
+          @blur="handleBlur('date')"
+          @input="handleInput('date')"
         />
-        <p v-if="errors.date" id="date-error" class="error-message" role="alert">
-          {{ errors.date }}
-        </p>
-      </div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn-primary submit-btn" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Submitting...' : 'Submit' }}
-      </button>
-    </form>
+        <!-- Submit Button -->
+        <BaseButton
+          type="submit"
+          variant="primary"
+          full-width
+          :loading="isSubmitting"
+          :disabled="isSubmitting"
+        >
+          Submit
+        </BaseButton>
+      </form>
+    </BaseCard>
   </div>
 </template>
 
@@ -163,16 +136,35 @@ function handleSubmit() {
   max-width: 500px;
 }
 
-.page-title {
+.welcome-page__title {
   font-size: 2rem;
-  color: var(--goa-blue);
-  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--goa-blue-dark);
+  margin-bottom: 0.75rem;
 }
 
-.page-description {
+.welcome-page__description {
   color: var(--goa-grey);
   margin-bottom: 2rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
 }
+
+.welcome-page__card {
+  max-width: 420px;
+}
+
+@media (max-width: 640px) {
+  .welcome-page__title {
+    font-size: 1.5rem;
+  }
+
+  .welcome-page__description {
+    font-size: 1rem;
+  }
+}
+</style>
+
 
 .form-card {
   max-width: 400px;

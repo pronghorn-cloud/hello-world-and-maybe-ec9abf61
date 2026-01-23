@@ -1,64 +1,66 @@
 <script setup>
+/**
+ * App Component - Root Application Component
+ * 
+ * Main application wrapper with header, footer, and router view.
+ * Implements Government of Alberta Design System standards.
+ * 
+ * @component
+ */
 import { RouterView } from 'vue-router'
+import { AppHeader, AppFooter, SkipLink } from '@/components/layout'
 </script>
 
 <template>
-  <div class="app-container">
+  <div class="app">
+    <!-- Skip Link for Accessibility (WCAG 2.4.1) -->
+    <SkipLink target-id="main-content" />
+
     <!-- Header -->
-    <header class="app-header">
-      <div class="header-content">
-        <h1>HelloWorld</h1>
-      </div>
-    </header>
+    <AppHeader title="HelloWorld" />
 
     <!-- Main Content Area -->
-    <main class="main-content">
-      <RouterView />
+    <main id="main-content" class="app__main" tabindex="-1">
+      <div class="app__container">
+        <RouterView />
+      </div>
     </main>
 
     <!-- Footer -->
-    <footer class="app-footer">
-      <p>&copy; {{ new Date().getFullYear() }} HelloWorld App</p>
-    </footer>
+    <AppFooter />
   </div>
 </template>
 
 <style scoped>
-.app-container {
+.app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.app-header {
-  background-color: #0070c4;
-  color: #fff;
-  padding: 1rem 1.5rem;
-}
-
-.header-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.header-content h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
-}
-
-.main-content {
+.app__main {
   flex: 1;
+  padding: 2rem 1.5rem;
+}
+
+.app__main:focus {
+  outline: none;
+}
+
+.app__container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
   width: 100%;
 }
 
-.app-footer {
-  background-color: #f0f0f0;
-  color: #666;
-  padding: 1.5rem;
+/* Responsive */
+@media (max-width: 640px) {
+  .app__main {
+    padding: 1.5rem 1rem;
+  }
+}
+</style>
+
   margin-top: auto;
 }
 
