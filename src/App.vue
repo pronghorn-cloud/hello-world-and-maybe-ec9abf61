@@ -1,18 +1,17 @@
+<script setup>
+import { RouterView } from 'vue-router'
+</script>
+
 <template>
-  <div id="app">
-    <router-view />
+  <div class="app-container">
+    <RouterView />
   </div>
 </template>
 
-<script setup>
-// Root component using Composition API
-</script>
-
 <style scoped>
-#app {
-  font-family: Arial, sans-serif;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>

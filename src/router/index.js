@@ -11,7 +11,20 @@ const routes = [
   {
     path: '/response',
     name: 'Response',
-    component: ResponsePage
+    component: ResponsePage,
+    beforeEnter: (to, from, next) => {
+      // E-003-F-006: Prevent direct access without form data
+      const hasFormData = sessionStorage.getItem('formData')
+      if (!hasFormData && from.name !== 'Welcome') {
+        next({ name: 'Welcome' })
+      } else {
+        next()
+      }
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ]
 

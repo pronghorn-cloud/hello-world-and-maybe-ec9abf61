@@ -1,65 +1,51 @@
-# HelloWorld App
+# HelloWorld Vue App
 
-A simple Vue 3 application with an entry form and response page.
+A Vue 3 application with Vite that displays a personalized greeting.
+
+## Features
+
+- **WelcomePage**: Entry form with Name and Date fields with validation
+- **ResponsePage**: Displays personalized greeting with error handling
+- Responsive design for all screen sizes
+- Form validation and sanitization
+- Session management and error handling
 
 ## Tech Stack
 
-- Vue 3.5.24a (Composition API)
+- Vue 3.5.24 (Composition API)
 - Vite 7.2.4
 - Vue Router 4.x
 - JavaScript (no TypeScript)
 
-## Features
-
-- **WelcomePage**: Entry form with name and date fields
-  - Required field validation
-  - Submit button to navigate to response page
-
-- **ResponsePage**: Displays greeting with submitted data
-  - Shows personalized greeting with name
-  - Displays formatted date
-  - Back button to return to form
-
 ## Getting Started
 
-### Install Dependencies
-
 ```bash
+# Install dependencies
 npm install
-```
 
-### Run Development Server
-
-```bash
+# Start development server
 npm run dev
-```
 
-### Build for Production
-
-```bash
+# Build for production
 npm run build
-```
 
-### Preview Production Build
-
-```bash
+# Preview production build
 npm run preview
 ```
 
 ## Project Structure
 
 ```
-├── index.html
-├── package.json
-├── vite.config.js
-├── src/
-│   ├── main.js
-│   ├── App.vue
-│   ├── assets/
-│   │   └── styles.css
-│   ├── router/
-│   │   └── index.js
-│   └── views/
-│       ├── WelcomePage.vue
-│       └── ResponsePage.vue
+src/
+├── main.js              # App entry point
+├── App.vue              # Root component
+├── assets/
+│   └── styles.css       # Global styles
+├── components/
+│   └── H1Header.vue     # Reusable H1 component (DS-XX3)
+├── router/
+│   └── index.js         # Vue Router configuration
+└── views/
+    ├── WelcomePage.vue  # Entry form page
+    └── ResponsePage.vue # Greeting response page
 ```
