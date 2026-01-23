@@ -1,52 +1,38 @@
-# Hello World Vue 3 Application
+# HelloWorld Application
 
-A responsive Vue 3 application demonstrating form handling, input validation, and dynamic content display using the Alberta Design System typography and styling guidelines.
-
-## Features
-
-### E-003: HelloWorld Response Page
-
-- **E-003-F-001**: Form data capture with name input
-- **E-003-F-002**: Page header display with clear titles and descriptions
-- **E-003-F-003**: Dynamic greeting message personalized with user's name
-- **E-003-F-004**: Back navigation button for seamless user flow
-- **E-003-F-005**: Input validation and sanitization for security
-- **E-003-F-006**: Comprehensive error handling with user feedback
-- **E-003-F-007**: Responsive layout supporting mobile, tablet, and desktop
-
-### E-002: UI Design Requirements
-
-- Alberta Design System typography integration
-- Consistent color palette using CSS custom properties
-- Accessible focus states and keyboard navigation
-- Reduced motion support for accessibility
-- High contrast mode compatibility
+A Vue 3 application built with Government of Alberta Design System standards, featuring form validation, accessibility compliance (WCAG 2.1 AA), and comprehensive testing.
 
 ## Tech Stack
 
-- **Vue**: 3.5.24 (Composition API with `<script setup>`)
-- **Vue Router**: 4.2.5
-- **Vite**: 5.2.4
-- **JavaScript**: ES6+ (No TypeScript)
+- **Framework**: Vue 3.5.24 (Composition API)
+- **Build Tool**: Vite 6.0
+- **Routing**: Vue Router 4.4
+- **HTTP Client**: Axios 1.7
+- **Testing**: Vitest + Vue Test Utils
+- **Linting**: ESLint with Vue 3 recommended rules
+- **Formatting**: Prettier
+- **Language**: JavaScript (ES2022+)
 
-## Project Structure
+## Features
 
-```
-hello-world-app/
-├── index.html              # HTML entry point
-├── package.json            # Project dependencies
-├── vite.config.js          # Vite configuration
-├── src/
-│   ├── main.js             # Application entry point
-│   ├── App.vue             # Root component
-│   ├── assets/
-│   │   └── styles.css      # Global styles (Alberta Design System)
-│   ├── router/
-│   │   └── index.js        # Vue Router configuration
-│   └── views/
-│       ├── WelcomePage.vue # Name input form page
-│       └── ResponsePage.vue # Greeting display page
-```
+### Welcome Page
+- Name input field (required, min 2 characters)
+- Date input field (required)
+- Real-time form validation with accessible error messages
+- Submit button with loading state
+
+### Response Page
+- Personalized greeting message
+- Formatted date display (Canadian locale)
+- Back navigation button
+- Empty state handling with redirect
+
+### Standards Compliance
+- **WCAG 2.1 AA** accessibility compliance
+- **Alberta Design System** color tokens and components
+- **Semantic HTML** structure
+- **Keyboard navigation** support
+- **Screen reader** optimized
 
 ## Getting Started
 
@@ -55,68 +41,176 @@ hello-world-app/
 - Node.js 18.x or higher
 - npm 9.x or higher
 
-### Installation
+### Install dependencies
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start development server
+### Run development server
+
+```bash
 npm run dev
+```
 
-# Build for production
+### Build for production
+
+```bash
 npm run build
+```
 
-# Preview production build
+### Preview production build
+
+```bash
 npm run preview
 ```
 
-### Development Server
+### Run tests
 
-The development server runs on `http://localhost:3000` by default.
+```bash
+npm run test
+```
 
-## Pages
+### Run tests with coverage
 
-### WelcomePage (`/`)
+```bash
+npm run test:coverage
+```
 
-The landing page featuring:
-- Welcome header with instructions
-- Name input form with validation
-- Real-time error feedback
-- Submit button with loading state
+### Lint code
 
-**Validation Rules:**
-- Name is required
-- Minimum 2 characters
-- Maximum 50 characters
-- Only letters, spaces, hyphens, and apostrophes allowed
+```bash
+npm run lint
+```
 
-### ResponsePage (`/response`)
+### Format code
 
-The greeting page featuring:
-- Personalized greeting with animated wave icon
-- Formatted display of entered name
-- Timestamp of greeting
-- Copy greeting to clipboard functionality
-- Back navigation button
+```bash
+npm run format
+```
+
+## Project Structure
+
+```
+src/
+├── __tests__/                    # Test files
+│   ├── components/
+│   │   ├── BaseButton.test.js
+│   │   └── BaseInput.test.js
+│   └── composables/
+│       ├── useDateFormatter.test.js
+│       └── useFormValidation.test.js
+├── components/                   # Reusable components
+│   ├── index.js                  # Barrel export
+│   ├── layout/
+│   │   ├── index.js
+│   │   ├── AppHeader.vue         # Application header
+│   │   ├── AppFooter.vue         # Application footer
+│   │   └── SkipLink.vue          # Accessibility skip link
+│   └── ui/
+│       ├── index.js
+│       ├── BaseButton.vue        # Button component
+│       ├── BaseCard.vue          # Card container
+│       └── BaseInput.vue         # Form input component
+├── composables/                  # Vue composition functions
+│   ├── index.js
+│   ├── useDateFormatter.js       # Date formatting utilities
+│   └── useFormValidation.js      # Form validation logic
+├── constants/
+│   └── index.js                  # App constants & config
+├── router/
+│   └── index.js                  # Vue Router configuration
+├── views/
+│   ├── WelcomePage.vue           # Entry form page
+│   └── ResponsePage.vue          # Greeting display page
+├── App.vue                       # Root component
+├── main.js                       # Application entry point
+└── style.css                     # Global styles
+```
+
+## Alberta Design System Colors
+
+| Token | Hex | CSS Variable | Usage |
+|-------|-----|--------------|-------|
+| GOA Blue | #0070C4 | `--goa-blue` | Primary actions, links |
+| GOA Blue Dark | #004F84 | `--goa-blue-dark` | Headings, hover states |
+| GOA Gold | #F1B434 | `--goa-gold` | Accents, highlights |
+| GOA Red | #E31C3D | `--goa-red` | Errors, required indicators |
+| GOA Grey Dark | #333333 | `--goa-grey-dark` | Body text |
+| GOA Grey | #666666 | `--goa-grey` | Secondary text |
+| GOA Grey Light | #F1F1F1 | `--goa-grey-light` | Backgrounds |
 
 ## Accessibility Features
 
-- Skip link for keyboard navigation
-- ARIA labels and descriptions
-- Focus management
-- Screen reader support
-- Reduced motion media query support
-- High contrast mode support
-- Semantic HTML structure
+- **Skip Navigation**: Skip link for keyboard users (WCAG 2.4.1)
+- **Focus Management**: Visible focus indicators on all interactive elements
+- **Error Handling**: ARIA live regions for form validation errors
+- **Semantic HTML**: Proper heading hierarchy and landmarks
+- **Touch Targets**: Minimum 48px touch targets for mobile
+- **Color Contrast**: WCAG AA compliant color combinations
+- **Screen Reader Support**: Proper ARIA labels and descriptions
 
-## Browser Support
+## Component Usage
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+### BaseButton
+
+```vue
+<BaseButton variant="primary" @click="handleClick">
+  Submit
+</BaseButton>
+
+<BaseButton variant="secondary" :loading="isLoading">
+  Save
+</BaseButton>
+```
+
+### BaseInput
+
+```vue
+<BaseInput
+  v-model="name"
+  label="Full Name"
+  required
+  :error="errors.name"
+  @blur="validateName"
+/>
+```
+
+### BaseCard
+
+```vue
+<BaseCard title="Welcome" padding="large">
+  <p>Card content goes here</p>
+</BaseCard>
+```
+
+## Testing
+
+The project uses Vitest for unit testing with Vue Test Utils for component testing.
+
+### Test Coverage
+
+- Composables: Form validation, date formatting
+- Components: BaseButton, BaseInput
+- Integration: Form submission flow
+
+## Contributing
+
+1. Follow the established code style (ESLint + Prettier)
+2. Write tests for new features
+3. Ensure WCAG 2.1 AA compliance
+4. Use Alberta Design System tokens
 
 ## License
 
-This project is licensed under the MIT License.
+© Government of Alberta. All rights reserved.
+
+| goa-gold | #F1B434 | Accents |
+| goa-red | #E31C3D | Errors |
+| goa-grey-dark | #333333 | Body text |
+| goa-grey | #666666 | Secondary text |
+| goa-grey-light | #F1F1F1 | Backgrounds |
+
+## License
+
+© Government of Alberta. All rights reserved.
