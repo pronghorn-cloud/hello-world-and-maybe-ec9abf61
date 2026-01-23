@@ -164,21 +164,3 @@ function handleSubmit() {
   }
 }
 </style>
-
-
-.form-card {
-  max-width: 400px;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.required {
-  color: var(--goa-red);
-}
-
-.submit-btn {
-  width: 100%;
-}
-</style>

@@ -60,13 +60,3 @@ import { AppHeader, AppFooter, SkipLink } from '@/components/layout'
   }
 }
 </style>
-
-  margin-top: auto;
-}
-
-.app-footer p {
-  max-width: 800px;
-  margin: 0 auto;
-  font-size: 0.875rem;
-}
-</style>
