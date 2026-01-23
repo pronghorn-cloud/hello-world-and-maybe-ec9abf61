@@ -1,216 +1,96 @@
-# HelloWorld Application
+# Hello World Vue 3 Application
 
-A Vue 3 application built with Government of Alberta Design System standards, featuring form validation, accessibility compliance (WCAG 2.1 AA), and comprehensive testing.
-
-## Tech Stack
-
-- **Framework**: Vue 3.5.24 (Composition API)
-- **Build Tool**: Vite 6.0
-- **Routing**: Vue Router 4.4
-- **HTTP Client**: Axios 1.7
-- **Testing**: Vitest + Vue Test Utils
-- **Linting**: ESLint with Vue 3 recommended rules
-- **Formatting**: Prettier
-- **Language**: JavaScript (ES2022+)
+A modern Vue 3 application featuring a name entry form with validation and a personalized greeting response page.
 
 ## Features
 
-### Welcome Page
-- Name input field (required, min 2 characters)
-- Date input field (required)
-- Real-time form validation with accessible error messages
-- Submit button with loading state
+- **HelloWorld Entry Form (E-001)**: Interactive form with real-time validation
+- **HelloWorld Response Page (E-003)**: Personalized greeting display
+- Form validation with meaningful error messages
+- Responsive design for mobile, tablet, and desktop
+- Accessibility compliant (ARIA labels, keyboard navigation)
+- Error handling with graceful fallbacks
 
-### Response Page
-- Personalized greeting message
-- Formatted date display (Canadian locale)
-- Back navigation button
-- Empty state handling with redirect
+## Tech Stack
 
-### Standards Compliance
-- **WCAG 2.1 AA** accessibility compliance
-- **Alberta Design System** color tokens and components
-- **Semantic HTML** structure
-- **Keyboard navigation** support
-- **Screen reader** optimized
+- **Vue**: 3.5.24
+- **Vite**: 7.2.4
+- **Vue Router**: 4.2.5
+- **Axios**: 1.6.2
+- **Chart.js**: 4.4.1
+- **Language**: JavaScript (ES6+)
+
+## Project Structure
+
+```
+├── index.html              # HTML entry point
+├── package.json            # Dependencies and scripts
+├── vite.config.js          # Vite configuration
+├── src/
+│   ├── main.js             # Vue app initialization
+│   ├── App.vue             # Root component
+│   ├── assets/
+│   │   └── styles.css      # Global styles
+│   ├── components/
+│   │   ├── HelloWorldForm.vue      # Entry form component
+│   │   └── HelloWorldResponse.vue  # Response page component
+│   └── router/
+│       └── index.js        # Vue Router configuration
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.x or higher
-- npm 9.x or higher
+- Node.js 18+ 
+- npm or yarn
 
-### Install dependencies
+### Installation
 
 ```bash
+# Install dependencies
 npm install
-```
 
-### Run development server
-
-```bash
+# Start development server
 npm run dev
-```
 
-### Build for production
-
-```bash
+# Build for production
 npm run build
-```
 
-### Preview production build
-
-```bash
+# Preview production build
 npm run preview
 ```
 
-### Run tests
+## Usage
 
-```bash
-npm run test
-```
+1. Open the application in your browser (default: http://localhost:3000)
+2. Enter your name in the form
+3. Click "Say Hello" to see your personalized greeting
+4. Use "Enter Another Name" to return to the form
 
-### Run tests with coverage
+## Form Validation Rules
 
-```bash
-npm run test:coverage
-```
+- Name is required
+- Minimum 2 characters
+- Maximum 50 characters
+- Only letters, spaces, hyphens, and apostrophes allowed
 
-### Lint code
+## Accessibility
 
-```bash
-npm run lint
-```
+- ARIA labels and roles for screen readers
+- Keyboard navigation support
+- Focus management
+- Reduced motion support
+- High contrast mode support
 
-### Format code
+## Browser Support
 
-```bash
-npm run format
-```
-
-## Project Structure
-
-```
-src/
-├── __tests__/                    # Test files
-│   ├── components/
-│   │   ├── BaseButton.test.js
-│   │   └── BaseInput.test.js
-│   └── composables/
-│       ├── useDateFormatter.test.js
-│       └── useFormValidation.test.js
-├── components/                   # Reusable components
-│   ├── index.js                  # Barrel export
-│   ├── layout/
-│   │   ├── index.js
-│   │   ├── AppHeader.vue         # Application header
-│   │   ├── AppFooter.vue         # Application footer
-│   │   └── SkipLink.vue          # Accessibility skip link
-│   └── ui/
-│       ├── index.js
-│       ├── BaseButton.vue        # Button component
-│       ├── BaseCard.vue          # Card container
-│       └── BaseInput.vue         # Form input component
-├── composables/                  # Vue composition functions
-│   ├── index.js
-│   ├── useDateFormatter.js       # Date formatting utilities
-│   └── useFormValidation.js      # Form validation logic
-├── constants/
-│   └── index.js                  # App constants & config
-├── router/
-│   └── index.js                  # Vue Router configuration
-├── views/
-│   ├── WelcomePage.vue           # Entry form page
-│   └── ResponsePage.vue          # Greeting display page
-├── App.vue                       # Root component
-├── main.js                       # Application entry point
-└── style.css                     # Global styles
-```
-
-## Alberta Design System Colors
-
-| Token | Hex | CSS Variable | Usage |
-|-------|-----|--------------|-------|
-| GOA Blue | #0070C4 | `--goa-blue` | Primary actions, links |
-| GOA Blue Dark | #004F84 | `--goa-blue-dark` | Headings, hover states |
-| GOA Gold | #F1B434 | `--goa-gold` | Accents, highlights |
-| GOA Red | #E31C3D | `--goa-red` | Errors, required indicators |
-| GOA Grey Dark | #333333 | `--goa-grey-dark` | Body text |
-| GOA Grey | #666666 | `--goa-grey` | Secondary text |
-| GOA Grey Light | #F1F1F1 | `--goa-grey-light` | Backgrounds |
-
-## Accessibility Features
-
-- **Skip Navigation**: Skip link for keyboard users (WCAG 2.4.1)
-- **Focus Management**: Visible focus indicators on all interactive elements
-- **Error Handling**: ARIA live regions for form validation errors
-- **Semantic HTML**: Proper heading hierarchy and landmarks
-- **Touch Targets**: Minimum 48px touch targets for mobile
-- **Color Contrast**: WCAG AA compliant color combinations
-- **Screen Reader Support**: Proper ARIA labels and descriptions
-
-## Component Usage
-
-### BaseButton
-
-```vue
-<BaseButton variant="primary" @click="handleClick">
-  Submit
-</BaseButton>
-
-<BaseButton variant="secondary" :loading="isLoading">
-  Save
-</BaseButton>
-```
-
-### BaseInput
-
-```vue
-<BaseInput
-  v-model="name"
-  label="Full Name"
-  required
-  :error="errors.name"
-  @blur="validateName"
-/>
-```
-
-### BaseCard
-
-```vue
-<BaseCard title="Welcome" padding="large">
-  <p>Card content goes here</p>
-</BaseCard>
-```
-
-## Testing
-
-The project uses Vitest for unit testing with Vue Test Utils for component testing.
-
-### Test Coverage
-
-- Composables: Form validation, date formatting
-- Components: BaseButton, BaseInput
-- Integration: Form submission flow
-
-## Contributing
-
-1. Follow the established code style (ESLint + Prettier)
-2. Write tests for new features
-3. Ensure WCAG 2.1 AA compliance
-4. Use Alberta Design System tokens
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## License
 
-© Government of Alberta. All rights reserved.
+MIT
 
-| goa-gold | #F1B434 | Accents |
-| goa-red | #E31C3D | Errors |
-| goa-grey-dark | #333333 | Body text |
-| goa-grey | #666666 | Secondary text |
-| goa-grey-light | #F1F1F1 | Backgrounds |
-
-## License
-
-© Government of Alberta. All rights reserved.

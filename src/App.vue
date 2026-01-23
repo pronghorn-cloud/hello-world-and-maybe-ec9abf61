@@ -1,62 +1,81 @@
-<script setup>
-/**
- * App Component - Root Application Component
- * 
- * Main application wrapper with header, footer, and router view.
- * Implements Government of Alberta Design System standards.
- * 
- * @component
- */
-import { RouterView } from 'vue-router'
-import { AppHeader, AppFooter, SkipLink } from '@/components/layout'
-</script>
-
 <template>
-  <div class="app">
-    <!-- Skip Link for Accessibility (WCAG 2.4.1) -->
-    <SkipLink target-id="main-content" />
-
-    <!-- Header -->
-    <AppHeader title="HelloWorld" />
-
-    <!-- Main Content Area -->
-    <main id="main-content" class="app__main" tabindex="-1">
-      <div class="app__container">
-        <RouterView />
-      </div>
+  <div id="app-container">
+    <header class="app-header">
+      <h1>Hello World App</h1>
+      <nav class="app-nav" aria-label="Main navigation">
+        <router-link to="/" class="nav-link">Home</router-link>
+      </nav>
+    </header>
+    <main class="app-main" role="main">
+      <router-view />
     </main>
-
-    <!-- Footer -->
-    <AppFooter />
+    <footer class="app-footer">
+      <p>&copy; 2024 Hello World App</p>
+    </footer>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App'
+}
+</script>
+
 <style scoped>
-.app {
-  min-height: 100vh;
+.app-header {
+  background-color: #42b883;
+  color: white;
+  padding: 1rem 2rem;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.app__main {
-  flex: 1;
-  padding: 2rem 1.5rem;
+.app-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
-.app__main:focus {
-  outline: none;
+.app-nav {
+  display: flex;
+  gap: 1rem;
 }
 
-.app__container {
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .app__main {
-    padding: 1.5rem 1rem;
+.nav-link:hover,
+.nav-link:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.app-main {
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
+}
+
+.app-footer {
+  background-color: #35495e;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .app-main {
+    padding: 1rem;
   }
 }
 </style>
