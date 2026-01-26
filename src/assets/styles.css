@@ -1,4 +1,22 @@
-/* Global Styles */
+/**
+ * Global Styles
+ * @standard DS-XX3 - Design System Standard
+ * @techstack TS-001 - Vue 3.5.24, Vite 7.2.4
+ * 
+ * Implements:
+ * - E-003-F-007: Responsive layout for all screen sizes
+ * - Consistent color palette and typography
+ * - Accessible focus states and error styling
+ * 
+ * Breakpoints:
+ * - Desktop: > 768px
+ * - Tablet: 481px - 768px
+ * - Mobile: <= 480px
+ */
+
+/* ========================================
+   CSS Reset & Base Styles
+   ======================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,18 +27,35 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: #333333;
   background-color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Responsive Container */
+/* ========================================
+   Layout - E-003-F-007 Responsive
+   ======================================== */
 .container {
   max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-/* Form Styles */
+/* ========================================
+   Card Component
+   ======================================== */
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+/* ========================================
+   Form Styles - E-001-F-006, E-001-F-007
+   ======================================== */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -29,28 +64,35 @@ body {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #444;
+  color: #444444;
 }
 
 .form-input {
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
-  border: 2px solid #ddd;
+  border: 2px solid #dddddd;
   border-radius: 4px;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-input:focus {
   outline: none;
   border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
 }
 
 .form-input.error {
   border-color: #dc3545;
 }
 
-/* Button Styles */
+.form-input.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* ========================================
+   Button Styles
+   ======================================== */
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
@@ -64,6 +106,11 @@ body {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.4);
+}
+
 .btn:hover {
   transform: translateY(-1px);
 }
@@ -72,9 +119,10 @@ body {
   transform: translateY(0);
 }
 
+/* Primary Button */
 .btn-primary {
   background-color: #4a90d9;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-primary:hover {
@@ -82,21 +130,28 @@ body {
 }
 
 .btn-primary:disabled {
-  background-color: #ccc;
+  background-color: #cccccc;
   cursor: not-allowed;
   transform: none;
 }
 
+.btn-primary:disabled:hover {
+  background-color: #cccccc;
+}
+
+/* Secondary Button */
 .btn-secondary {
   background-color: #6c757d;
-  color: white;
+  color: #ffffff;
 }
 
 .btn-secondary:hover {
   background-color: #5a6268;
 }
 
-/* Error Message Styles */
+/* ========================================
+   Error & Alert Styles - E-001-F-007
+   ======================================== */
 .error-message {
   color: #dc3545;
   font-size: 0.875rem;
@@ -112,7 +167,9 @@ body {
   margin-bottom: 1rem;
 }
 
-/* Success/Info Styles */
+/* ========================================
+   Success/Greeting Styles - E-003-F-003
+   ======================================== */
 .greeting-message {
   background-color: #d4edda;
   border: 1px solid #c3e6cb;
@@ -121,19 +178,12 @@ body {
   border-radius: 4px;
   font-size: 1.25rem;
   text-align: center;
-  margin: 1.5rem 0;
 }
 
-/* Card Styles */
-.card {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin-top: 2rem;
-}
-
-/* Responsive Design - E-003-F-007 */
+/* ========================================
+   Responsive Design - E-003-F-007
+   Tablet Breakpoint (768px)
+   ======================================== */
 @media (max-width: 768px) {
   .container {
     padding: 1.5rem;
@@ -150,6 +200,10 @@ body {
   }
 }
 
+/* ========================================
+   Responsive Design - E-003-F-007
+   Mobile Breakpoint (480px)
+   ======================================== */
 @media (max-width: 480px) {
   .container {
     padding: 1rem;
@@ -169,3 +223,4 @@ body {
     padding: 1rem;
   }
 }
+

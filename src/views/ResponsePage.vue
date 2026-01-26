@@ -1,24 +1,46 @@
 <script setup>
+/**
+ * ResponsePage Component
+ * @requirement E-003 HelloWorld Response Page
+ * @description Displays personalized greeting with submitted form data
+ * 
+ * Requirements Implemented:
+ * - E-003-F-001: Capture data from WelcomePage (Name, Date)
+ * - E-003-F-002: Page header "HelloWorld Response"
+ * - E-003-F-003: Dynamic greeting message "Hello [Name], the date is [Date]"
+ * - E-003-F-004: Back navigation button to return to form
+ * - E-003-F-005: Validation of retrieved data
+ * - E-003-F-006: Error handling (direct access, missing data, session timeout)
+ * - E-003-F-007: Responsive layout for all screen sizes
+ * 
+ * @standard DS-XX3 - Uses H1Header component
+ * @techstack TS-001 - Vue 3.5.24 Composition API, JavaScript only
+ */
+
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import H1Header from '../components/H1Header.vue'
 
 const router = useRouter()
 
-// State
+// State management
 const formData = ref(null)
 const error = ref('')
 const isLoading = ref(true)
 
-// Session timeout duration (30 minutes)
+// E-003-F-006: Session timeout duration (30 minutes)
 const SESSION_TIMEOUT = 30 * 60 * 1000
 
-// E-003-F-006: Error handling for direct access, missing data, session timeouts
+/**
+ * E-003-F-001: Load and validate form data on mount
+ * E-003-F-005: Validate retrieved data
+ * E-003-F-006: Handle errors for direct access, missing data, session timeouts
+ */
 onMounted(() => {
   try {
     const storedData = sessionStorage.getItem('formData')
     
-    // Check for missing data
+    // E-003-F-006: Check for missing data (direct access)
     if (!storedData) {
       error.value = 'No form data found. Please fill out the form first.'
       isLoading.value = false
@@ -27,7 +49,7 @@ onMounted(() => {
     
     const parsed = JSON.parse(storedData)
     
-    // Check for session timeout
+    // E-003-F-006: Check for session timeout
     if (parsed.timestamp && Date.now() - parsed.timestamp > SESSION_TIMEOUT) {
       sessionStorage.removeItem('formData')
       error.value = 'Your session has expired. Please fill out the form again.'
@@ -35,8 +57,14 @@ onMounted(() => {
       return
     }
     
-    // E-003-F-005: Validate retrieved data
-    if (!parsed.name || !parsed.date) {
+    // E-003-F-005: Validate retrieved data integrity
+    if (!parsed.name || typeof parsed.name !== 'string' || parsed.name.trim() === '') {
+      error.value = 'Invalid form data. Please fill out the form again.'
+      isLoading.value = false
+      return
+    }
+    
+    if (!parsed.date || typeof parsed.date !== 'string') {
       error.value = 'Invalid form data. Please fill out the form again.'
       isLoading.value = false
       return
@@ -45,13 +73,18 @@ onMounted(() => {
     formData.value = parsed
     isLoading.value = false
   } catch (err) {
+    // E-003-F-006: Error handling
     console.error('Error loading form data:', err)
     error.value = 'An error occurred while loading your data. Please try again.'
     isLoading.value = false
   }
 })
 
-// E-003-F-003: Dynamic greeting message "Hello [Field 1] the date..."
+/**
+ * E-003-F-003: Dynamic greeting message
+ * Generates "Hello [Name], the date is [formatted date]."
+ * @returns {string} Formatted greeting message
+ */
 const greetingMessage = computed(() => {
   if (!formData.value) return ''
   
@@ -61,7 +94,11 @@ const greetingMessage = computed(() => {
   return `Hello ${name}, the date is ${formattedDate}.`
 })
 
-// Format date for display
+/**
+ * Format date for display in user-friendly format
+ * @param {string} dateString - ISO date string
+ * @returns {string} Formatted date string
+ */
 const formatDate = (dateString) => {
   try {
     const date = new Date(dateString)
@@ -71,19 +108,25 @@ const formatDate = (dateString) => {
       month: 'long',
       day: 'numeric'
     })
-  } catch (_err) {
+  } catch (err) {
+    console.error('Date formatting error:', err)
     return dateString
   }
 }
 
-// E-003-F-004: Back navigation button
+/**
+ * E-003-F-004: Back navigation button handler
+ * Clears session data and navigates back to Welcome page
+ */
 const handleBack = () => {
-  // Clear session data when going back
   sessionStorage.removeItem('formData')
   router.push({ name: 'Welcome' })
 }
 
-// Retry - redirect to welcome page
+/**
+ * Retry handler for error state
+ * Clears session data and redirects to Welcome page
+ */
 const handleRetry = () => {
   sessionStorage.removeItem('formData')
   router.push({ name: 'Welcome' })
@@ -91,19 +134,20 @@ const handleRetry = () => {
 </script>
 
 <template>
-  <div class="container">
-    <div class="card">
-      <!-- E-003-F-002: Page header "HelloWorld Response" -->
+  <!-- E-003-F-007: Responsive layout container -->
+  <main class="container">
+    <article class="card">
+      <!-- E-003-F-002: Page header "HelloWorld Response" using DS-XX3 H1Header -->
       <H1Header text="HelloWorld Response" />
       
       <!-- Loading State -->
-      <div v-if="isLoading" class="loading-state">
+      <div v-if="isLoading" class="loading-state" aria-live="polite">
         <p>Loading...</p>
       </div>
       
-      <!-- Error State - E-003-F-006 -->
-      <div v-else-if="error" class="error-state">
-        <div class="error-alert" role="alert">
+      <!-- E-003-F-006: Error State -->
+      <section v-else-if="error" class="error-state">
+        <div class="error-alert" role="alert" aria-live="assertive">
           {{ error }}
         </div>
         <button 
@@ -113,16 +157,16 @@ const handleRetry = () => {
         >
           Go to Form
         </button>
-      </div>
+      </section>
       
       <!-- Success State -->
-      <div v-else class="success-state">
+      <section v-else class="success-state">
         <!-- E-003-F-003: Dynamic greeting message -->
-        <div class="greeting-message" role="status">
+        <div class="greeting-message" role="status" aria-live="polite">
           {{ greetingMessage }}
         </div>
         
-        <!-- Form Data Summary -->
+        <!-- E-003-F-001: Display captured form data summary -->
         <div class="data-summary">
           <h2 class="summary-title">Submitted Information</h2>
           <dl class="summary-list">
@@ -138,35 +182,42 @@ const handleRetry = () => {
         </div>
         
         <!-- E-003-F-004: Back navigation button -->
-        <button 
-          type="button" 
-          class="btn btn-secondary" 
-          @click="handleBack"
-        >
-          ← Back to Form
-        </button>
-      </div>
-    </div>
-  </div>
+        <nav class="navigation">
+          <button 
+            type="button" 
+            class="btn btn-secondary" 
+            @click="handleBack"
+            aria-label="Go back to the welcome form"
+          >
+            ← Back to Form
+          </button>
+        </nav>
+      </section>
+    </article>
+  </main>
 </template>
 
 <style scoped>
+/* Loading State */
 .loading-state {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: #666666;
 }
 
+/* Error State */
 .error-state {
   text-align: center;
 }
 
+/* Success State */
 .success-state {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
+/* Data Summary Section */
 .data-summary {
   background-color: #f8f9fa;
   border-radius: 4px;
@@ -176,7 +227,7 @@ const handleRetry = () => {
 .summary-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #444;
+  color: #444444;
   margin-bottom: 0.75rem;
 }
 
@@ -196,18 +247,24 @@ const handleRetry = () => {
 
 .summary-item dt {
   font-weight: 600;
-  color: #555;
+  color: #555555;
 }
 
 .summary-item dd {
   margin: 0;
-  color: #333;
+  color: #333333;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
 }
 
 .btn-secondary {
   align-self: flex-start;
 }
 
+/* E-003-F-007: Responsive layout - Mobile breakpoint */
 @media (max-width: 480px) {
   .summary-item {
     flex-direction: column;
@@ -216,6 +273,11 @@ const handleRetry = () => {
   
   .btn-secondary {
     align-self: stretch;
+    width: 100%;
+  }
+  
+  .navigation {
+    width: 100%;
   }
 }
 </style>
