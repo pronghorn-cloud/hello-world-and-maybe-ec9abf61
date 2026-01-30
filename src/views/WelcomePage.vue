@@ -2,6 +2,7 @@
 /**
  * WelcomePage Component
  * @requirement E-001 HelloWorld Entry Form
+ * @version 2.0.0 - Rebuilt Visual Components
  * @description Entry form page with Name and Date fields
  * 
  * Requirements Implemented:
@@ -35,6 +36,9 @@ const date = ref('')
 const nameError = ref('')
 const dateError = ref('')
 const formError = ref('')
+
+// Loading state for submit button
+const isSubmitting = ref(false)
 
 /**
  * E-003-F-005: Input validation and sanitization
@@ -106,7 +110,7 @@ const isFormValid = computed(() => {
  * E-003-F-001: Capture and store form data for ResponsePage
  * Handles form submission with validation and data persistence
  */
-const handleSubmit = () => {
+const handleSubmit = async () => {
   formError.value = ''
   
   const isNameValid = validateName()
@@ -119,6 +123,11 @@ const handleSubmit = () => {
   }
   
   try {
+    isSubmitting.value = true
+    
+    // Simulate brief processing delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 300))
+    
     // E-003-F-001: Capture and store form data
     const formData = {
       name: sanitizeInput(name.value),
@@ -134,6 +143,8 @@ const handleSubmit = () => {
     // E-001-F-007: Error handling
     formError.value = 'An error occurred. Please try again.'
     console.error('Form submission error:', error)
+  } finally {
+    isSubmitting.value = false
   }
 }
 
@@ -155,27 +166,223 @@ const clearDateError = () => {
 </script>
 
 <template>
-  <main class="container">
-    <article class="card">
-      <!-- Alberta Design System: H1Header component - H1 exclusive to page title -->
-      <H1Header text="Welcome" />
-      
-      <form @submit.prevent="handleSubmit" novalidate aria-label="Welcome form">
-        <!-- E-001-F-007: General Form Error Alert -->
-        <div v-if="formError" class="error-alert" role="alert" aria-live="polite">
-          {{ formError }}
-        </div>
+  <div class="page-container">
+    <div class="container">
+      <article class="card">
+        <!-- Alberta Design System: H1Header component - H1 exclusive to page title -->
+        <H1Header 
+          text="Welcome" 
+          subtitle="Enter your details to get started"
+        />
         
-        <!-- E-001-F-006: Field 1 - Name (Required) -->
-        <div class="form-group">
-          <label for="name" class="form-label">
-            Name <span class="required-indicator" aria-label="required">*</span>
-          </label>
-          <input
-            id="name"
-            v-model="name"
-            type="text"
-            class="form-input"
+        <form 
+          @submit.prevent="handleSubmit" 
+          novalidate 
+          aria-label="Welcome form"
+          class="welcome-form"
+        >
+          <!-- E-001-F-007: General Form Error Alert -->
+          <transition name="fade">
+            <div v-if="formError" class="error-alert" role="alert" aria-live="polite">
+              {{ formError }}
+            </div>
+          </transition>
+          
+          <!-- E-001-F-006: Field 1 - Name (Required) -->
+          <div class="form-group">
+            <label for="name" class="form-label">
+              <span class="label-text">Name</span>
+              <span class="required-indicator" aria-label="required">*</span>
+            </label>
+            <input
+              id="name"
+              v-model="name"
+              type="text"
+              class="form-input"
+              :class="{ error: nameError }"
+              :aria-invalid="!!nameError"
+              :aria-describedby="nameError ? 'name-error' : 'name-hint'"
+              placeholder="Enter your name"
+              @input="clearNameError"
+              @blur="validateName"
+              autocomplete="name"
+              maxlength="100"
+              required
+            />
+            <p id="name-hint" class="form-hint" v-if="!nameError">
+              Letters, spaces, and hyphens only
+            </p>
+            <transition name="fade">
+              <p 
+                v-if="nameError" 
+                id="name-error" 
+                class="error-message" 
+                role="alert" 
+                aria-live="polite"
+              >
+                {{ nameError }}
+              </p>
+            </transition>
+          </div>
+          
+          <!-- E-001-F-006: Field 2 - Date (Required) -->
+          <div class="form-group">
+            <label for="date" class="form-label">
+              <span class="label-text">Date</span>
+              <span class="required-indicator" aria-label="required">*</span>
+            </label>
+            <input
+              id="date"
+              v-model="date"
+              type="date"
+              class="form-input"
+              :class="{ error: dateError }"
+              :aria-invalid="!!dateError"
+              :aria-describedby="dateError ? 'date-error' : 'date-hint'"
+              @input="clearDateError"
+              @blur="validateDate"
+              required
+            />
+            <p id="date-hint" class="form-hint" v-if="!dateError">
+              Select a date from the calendar
+            </p>
+            <transition name="fade">
+              <p 
+                v-if="dateError" 
+                id="date-error" 
+                class="error-message" 
+                role="alert" 
+                aria-live="polite"
+              >
+                {{ dateError }}
+              </p>
+            </transition>
+          </div>
+          
+          <!-- Submit Button with all states (hover, focus, disabled) -->
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary btn-submit"
+              :disabled="!isFormValid || isSubmitting"
+              :aria-disabled="!isFormValid || isSubmitting"
+            >
+              <span v-if="isSubmitting" class="btn-loading">
+                <span class="spinner" aria-hidden="true"></span>
+                Processing...
+              </span>
+              <span v-else class="btn-content">
+                <span>Submit</span>
+                <span class="btn-icon" aria-hidden="true">→</span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </article>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+/* Page layout */
+.page-container {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: var(--ads-space-lg);
+}
+
+/* Form styles */
+.welcome-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Form hint text */
+.form-hint {
+  font-size: var(--ads-font-size-small);
+  color: var(--ads-text-muted);
+  margin-top: var(--ads-space-2xs);
+  margin-bottom: 0;
+}
+
+/* Form actions */
+.form-actions {
+  margin-top: var(--ads-space-md);
+}
+
+/* Submit button */
+.btn-submit {
+  width: 100%;
+  position: relative;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ads-space-xs);
+}
+
+.btn-icon {
+  transition: transform var(--ads-transition-fast);
+}
+
+.btn-submit:hover:not(:disabled) .btn-icon {
+  transform: translateX(4px);
+}
+
+.btn-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ads-space-xs);
+}
+
+/* Loading spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .page-container {
+    padding-top: var(--ads-space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding-top: var(--ads-space-sm);
+    align-items: flex-start;
+  }
+}
+</style>
+
             :class="{ error: nameError }"
             :aria-invalid="!!nameError"
             :aria-describedby="nameError ? 'name-error' : undefined"
