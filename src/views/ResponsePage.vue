@@ -175,7 +175,7 @@ const handleRetry = () => {
         
         <!-- E-003-F-001: Display captured form data summary -->
         <div class="data-summary">
-          <h2 class="summary-title">Submitted Information</h2>
+          <h3 class="summary-title">Submitted Information</h3>
           <dl class="summary-list">
             <div class="summary-item">
               <dt>Name:</dt>
@@ -231,12 +231,15 @@ const handleRetry = () => {
   padding: var(--ads-space-sm);
 }
 
+/* ADS: H3 used for subsection title - styled as label for visual hierarchy */
 .summary-title {
   font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-body);
+  font-size: var(--ads-font-size-small);
   font-weight: var(--ads-font-weight-semibold);
   color: var(--ads-text-secondary);
   margin-bottom: var(--ads-space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .summary-list {
@@ -276,7 +279,7 @@ const handleRetry = () => {
 @media (max-width: 480px) {
   .summary-item {
     flex-direction: column;
-    gap: 4px;
+    gap: calc(var(--ads-space-xs) / 2);
   }
   
   .btn-secondary {
