@@ -10,8 +10,15 @@
  * - E-003-F-001: Data capture for ResponsePage
  * - E-003-F-005: Input validation and sanitization
  * 
- * @standard DS-XX3 - Uses H1Header component
+ * @standard Alberta Design System (ADS)
  * @techstack TS-001 - Vue 3.5.24 Composition API, JavaScript only
+ * 
+ * ADS Compliance:
+ * - All colors from Alberta Design System palette
+ * - Focus state #FEBA35 for all interactive elements
+ * - Full component states (hover, focus, error, disabled)
+ * - WCAG 2.1 AA accessibility compliance
+ * - 8px spacing grid system
  */
 
 import { ref, computed } from 'vue'
@@ -150,7 +157,7 @@ const clearDateError = () => {
 <template>
   <main class="container">
     <article class="card">
-      <!-- DS-XX3: H1Header component -->
+      <!-- Alberta Design System: H1Header component - H1 exclusive to page title -->
       <H1Header text="Welcome" />
       
       <form @submit.prevent="handleSubmit" novalidate aria-label="Welcome form">
@@ -162,7 +169,7 @@ const clearDateError = () => {
         <!-- E-001-F-006: Field 1 - Name (Required) -->
         <div class="form-group">
           <label for="name" class="form-label">
-            Name <span aria-label="required">*</span>
+            Name <span class="required-indicator" aria-label="required">*</span>
           </label>
           <input
             id="name"
@@ -193,7 +200,7 @@ const clearDateError = () => {
         <!-- E-001-F-006: Field 2 - Date (Required) -->
         <div class="form-group">
           <label for="date" class="form-label">
-            Date <span aria-label="required">*</span>
+            Date <span class="required-indicator" aria-label="required">*</span>
           </label>
           <input
             id="date"
@@ -218,7 +225,7 @@ const clearDateError = () => {
           </p>
         </div>
         
-        <!-- Submit Button -->
+        <!-- Submit Button with all states (hover, focus, disabled) -->
         <button
           type="submit"
           class="btn btn-primary"
@@ -233,12 +240,14 @@ const clearDateError = () => {
 </template>
 
 <style scoped>
+/* Alberta Design System: Form layout */
 form {
   display: flex;
   flex-direction: column;
 }
 
+/* Alberta Design System: Button spacing */
 .btn-primary {
-  margin-top: 1rem;
+  margin-top: var(--ads-space-sm);
 }
 </style>

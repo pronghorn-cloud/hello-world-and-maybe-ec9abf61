@@ -1,12 +1,15 @@
 /**
- * Global Styles
- * @standard DS-XX3 - Design System Standard
+ * Global Styles - Alberta Design System Compliant
+ * @standard Alberta Design System (ADS)
  * @techstack TS-001 - Vue 3.5.24, Vite 7.2.4
  * 
- * Implements:
- * - E-003-F-007: Responsive layout for all screen sizes
- * - Consistent color palette and typography
- * - Accessible focus states and error styling
+ * Compliance:
+ * - All colors from Alberta Design System palette
+ * - 8px spacing grid system
+ * - Acumin Pro Semi Condensed typography (with fallbacks)
+ * - Focus state #FEBA35 for all interactive elements
+ * - Full component states (hover, focus, error, disabled)
+ * - WCAG 2.1 AA accessibility compliance
  * 
  * Breakpoints:
  * - Desktop: > 768px
@@ -15,212 +18,486 @@
  */
 
 /* ========================================
+   Alberta Design System - CSS Variables
+   ======================================== */
+:root {
+  /* Primary Colors */
+  --ads-blue: #0070C4;
+  --ads-blue-hover: #005A9C;
+  --ads-blue-active: #004A80;
+  
+  /* Accent/Focus Colors */
+  --ads-focus: #FEBA35;
+  --ads-focus-light: rgba(254, 186, 53, 0.3);
+  
+  /* Semantic Colors */
+  --ads-error: #EC040B;
+  --ads-error-light: #FDECEC;
+  --ads-error-border: #F5C6C6;
+  --ads-success: #00853E;
+  --ads-success-light: #E5F3EC;
+  --ads-success-border: #C3E6CB;
+  --ads-warning: #F37021;
+  
+  /* Neutral Colors */
+  --ads-text-primary: #333333;
+  --ads-text-secondary: #666666;
+  --ads-text-disabled: #999999;
+  --ads-background: #F1F1F1;
+  --ads-background-white: #FFFFFF;
+  --ads-border: #DCDCDC;
+  --ads-border-dark: #CCCCCC;
+  --ads-disabled-bg: #E8E8E8;
+  --ads-disabled-text: #999999;
+  
+  /* Typography */
+  --ads-font-family: "Acumin Pro Semi Condensed", Arial, Helvetica, sans-serif;
+  --ads-font-size-h1: 2.25rem;    /* 36px - page title only */
+  --ads-font-size-h2: 1.5rem;      /* 24px */
+  --ads-font-size-h3: 1.25rem;     /* 20px */
+  --ads-font-size-body: 1rem;      /* 16px */
+  --ads-font-size-small: 0.875rem; /* 14px */
+  --ads-line-height: 1.5;
+  --ads-font-weight-regular: 400;
+  --ads-font-weight-semibold: 600;
+  --ads-font-weight-bold: 700;
+  
+  /* Spacing (8px grid) */
+  --ads-space-xs: 0.5rem;   /* 8px */
+  --ads-space-sm: 1rem;     /* 16px */
+  --ads-space-md: 1.5rem;   /* 24px */
+  --ads-space-lg: 2rem;     /* 32px */
+  --ads-space-xl: 3rem;     /* 48px */
+  
+  /* Border Radius */
+  --ads-radius-sm: 4px;
+  --ads-radius-md: 8px;
+  
+  /* Focus Ring */
+  --ads-focus-outline: 3px solid var(--ads-focus);
+  --ads-focus-offset: 2px;
+  
+  /* Transitions */
+  --ads-transition-fast: 150ms ease-in-out;
+  --ads-transition-normal: 250ms ease-in-out;
+}
+
+/* ========================================
    CSS Reset & Base Styles
    ======================================== */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  font-size: 100%; /* 16px base */
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 1.6;
-  color: #333333;
-  background-color: #f5f5f5;
+  font-family: var(--ads-font-family);
+  font-size: var(--ads-font-size-body);
+  font-weight: var(--ads-font-weight-regular);
+  line-height: var(--ads-line-height);
+  color: var(--ads-text-primary);
+  background-color: var(--ads-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========================================
-   Layout - E-003-F-007 Responsive
+   Typography - Alberta Design System
+   H1 is exclusive to page title
+   ======================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ads-font-family);
+  font-weight: var(--ads-font-weight-bold);
+  line-height: 1.2;
+  color: var(--ads-text-primary);
+}
+
+h2 {
+  font-size: var(--ads-font-size-h2);
+  margin-bottom: var(--ads-space-sm);
+}
+
+h3 {
+  font-size: var(--ads-font-size-h3);
+  margin-bottom: var(--ads-space-xs);
+}
+
+p {
+  margin-bottom: var(--ads-space-sm);
+}
+
+/* ========================================
+   Layout - Alberta Design System
    ======================================== */
 .container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--ads-space-lg);
 }
 
 /* ========================================
-   Card Component
+   Card Component - Alberta Design System
    ======================================== */
 .card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  margin-top: 2rem;
+  background-color: var(--ads-background-white);
+  border-radius: var(--ads-radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: var(--ads-space-lg);
+  margin-top: var(--ads-space-lg);
 }
 
 /* ========================================
-   Form Styles - E-001-F-006, E-001-F-007
+   Form Styles - Alberta Design System
    ======================================== */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--ads-space-md);
 }
 
 .form-label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #444444;
+  margin-bottom: var(--ads-space-xs);
+  font-weight: var(--ads-font-weight-semibold);
+  font-size: var(--ads-font-size-body);
+  color: var(--ads-text-primary);
 }
 
+.form-label .required-indicator {
+  color: var(--ads-error);
+  margin-left: 2px;
+}
+
+/* Form Input - Default State */
 .form-input {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 2px solid #dddddd;
-  border-radius: 4px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 0.75rem var(--ads-space-sm);
+  font-family: var(--ads-font-family);
+  font-size: var(--ads-font-size-body);
+  line-height: var(--ads-line-height);
+  color: var(--ads-text-primary);
+  background-color: var(--ads-background-white);
+  border: 2px solid var(--ads-border);
+  border-radius: var(--ads-radius-sm);
+  transition: border-color var(--ads-transition-fast),
+              outline var(--ads-transition-fast);
 }
 
+/* Form Input - Hover State */
+.form-input:hover:not(:disabled):not(.error) {
+  border-color: var(--ads-blue);
+}
+
+/* Form Input - Focus State (ADS: #FEBA35) */
 .form-input:focus {
-  outline: none;
-  border-color: #4a90d9;
-  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+  border-color: var(--ads-blue);
 }
 
+/* Form Input - Error State */
 .form-input.error {
-  border-color: #dc3545;
+  border-color: var(--ads-error);
+  background-color: var(--ads-error-light);
 }
 
 .form-input.error:focus {
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+  border-color: var(--ads-error);
+}
+
+/* Form Input - Disabled State */
+.form-input:disabled {
+  background-color: var(--ads-disabled-bg);
+  border-color: var(--ads-border);
+  color: var(--ads-disabled-text);
+  cursor: not-allowed;
+}
+
+/* Form Input - Placeholder */
+.form-input::placeholder {
+  color: var(--ads-text-secondary);
+  opacity: 1;
 }
 
 /* ========================================
-   Button Styles
+   Button Styles - Alberta Design System
+   All interactive elements have focus state
    ======================================== */
 .btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem var(--ads-space-md);
+  font-family: var(--ads-font-family);
+  font-size: var(--ads-font-size-body);
+  font-weight: var(--ads-font-weight-semibold);
   text-align: center;
   text-decoration: none;
-  border: none;
-  border-radius: 4px;
+  border: 2px solid transparent;
+  border-radius: var(--ads-radius-sm);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background-color var(--ads-transition-fast),
+              border-color var(--ads-transition-fast),
+              color var(--ads-transition-fast),
+              transform var(--ads-transition-fast);
 }
 
+/* Button - Focus State (ADS: #FEBA35) */
 .btn:focus {
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+}
+
+.btn:focus:not(:focus-visible) {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.4);
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.btn:focus-visible {
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
 }
 
-.btn:active {
-  transform: translateY(0);
-}
-
-/* Primary Button */
+/* Primary Button - Default State */
 .btn-primary {
-  background-color: #4a90d9;
-  color: #ffffff;
+  background-color: var(--ads-blue);
+  border-color: var(--ads-blue);
+  color: var(--ads-background-white);
 }
 
-.btn-primary:hover {
-  background-color: #3a7bc8;
+/* Primary Button - Hover State */
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--ads-blue-hover);
+  border-color: var(--ads-blue-hover);
 }
 
+/* Primary Button - Active State */
+.btn-primary:active:not(:disabled) {
+  background-color: var(--ads-blue-active);
+  border-color: var(--ads-blue-active);
+  transform: translateY(1px);
+}
+
+/* Primary Button - Disabled State */
 .btn-primary:disabled {
-  background-color: #cccccc;
+  background-color: var(--ads-disabled-bg);
+  border-color: var(--ads-disabled-bg);
+  color: var(--ads-disabled-text);
   cursor: not-allowed;
-  transform: none;
 }
 
-.btn-primary:disabled:hover {
-  background-color: #cccccc;
-}
-
-/* Secondary Button */
+/* Secondary Button - Default State */
 .btn-secondary {
-  background-color: #6c757d;
-  color: #ffffff;
+  background-color: var(--ads-background-white);
+  border-color: var(--ads-blue);
+  color: var(--ads-blue);
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
+/* Secondary Button - Hover State */
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--ads-blue);
+  color: var(--ads-background-white);
+}
+
+/* Secondary Button - Active State */
+.btn-secondary:active:not(:disabled) {
+  background-color: var(--ads-blue-hover);
+  border-color: var(--ads-blue-hover);
+  color: var(--ads-background-white);
+  transform: translateY(1px);
+}
+
+/* Secondary Button - Disabled State */
+.btn-secondary:disabled {
+  background-color: var(--ads-disabled-bg);
+  border-color: var(--ads-border);
+  color: var(--ads-disabled-text);
+  cursor: not-allowed;
 }
 
 /* ========================================
-   Error & Alert Styles - E-001-F-007
+   Error & Alert Styles - Alberta Design System
    ======================================== */
 .error-message {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
+  color: var(--ads-error);
+  font-size: var(--ads-font-size-small);
+  font-weight: var(--ads-font-weight-regular);
+  margin-top: var(--ads-space-xs);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ads-space-xs);
+}
+
+.error-message::before {
+  content: "⚠";
+  flex-shrink: 0;
 }
 
 .error-alert {
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
-  padding: 1rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  background-color: var(--ads-error-light);
+  border: 2px solid var(--ads-error);
+  border-left-width: 4px;
+  color: var(--ads-text-primary);
+  padding: var(--ads-space-sm);
+  border-radius: var(--ads-radius-sm);
+  margin-bottom: var(--ads-space-md);
+  font-size: var(--ads-font-size-body);
 }
 
 /* ========================================
-   Success/Greeting Styles - E-003-F-003
+   Success/Greeting Styles - Alberta Design System
    ======================================== */
 .greeting-message {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 1.5rem;
-  border-radius: 4px;
-  font-size: 1.25rem;
+  background-color: var(--ads-success-light);
+  border: 2px solid var(--ads-success);
+  border-left-width: 4px;
+  color: var(--ads-text-primary);
+  padding: var(--ads-space-md);
+  border-radius: var(--ads-radius-sm);
+  font-size: var(--ads-font-size-h3);
+  font-weight: var(--ads-font-weight-semibold);
   text-align: center;
 }
 
 /* ========================================
-   Responsive Design - E-003-F-007
-   Tablet Breakpoint (768px)
+   Link Styles - Alberta Design System
+   All interactive elements have focus state
+   ======================================== */
+a {
+  color: var(--ads-blue);
+  text-decoration: underline;
+  transition: color var(--ads-transition-fast);
+}
+
+a:hover {
+  color: var(--ads-blue-hover);
+}
+
+a:focus {
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+}
+
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:focus-visible {
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+}
+
+/* ========================================
+   Skip Link - Accessibility
+   ======================================== */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--ads-space-sm);
+  background-color: var(--ads-blue);
+  color: var(--ads-background-white);
+  padding: var(--ads-space-xs) var(--ads-space-sm);
+  border-radius: var(--ads-radius-sm);
+  z-index: 9999;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--ads-space-sm);
+  outline: var(--ads-focus-outline);
+  outline-offset: var(--ads-focus-offset);
+}
+
+/* ========================================
+   Responsive Design - Tablet (768px)
    ======================================== */
 @media (max-width: 768px) {
+  :root {
+    --ads-font-size-h1: 1.75rem;  /* 28px */
+    --ads-font-size-h2: 1.25rem;  /* 20px */
+    --ads-font-size-h3: 1.125rem; /* 18px */
+  }
+  
   .container {
-    padding: 1.5rem;
+    padding: var(--ads-space-md);
   }
 
   .card {
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+    padding: var(--ads-space-md);
+    margin-top: var(--ads-space-md);
   }
 
   .btn {
     width: 100%;
-    padding: 1rem;
+    padding: var(--ads-space-sm) var(--ads-space-md);
   }
 }
 
 /* ========================================
-   Responsive Design - E-003-F-007
-   Mobile Breakpoint (480px)
+   Responsive Design - Mobile (480px)
    ======================================== */
 @media (max-width: 480px) {
+  :root {
+    --ads-font-size-h1: 1.5rem;   /* 24px */
+    --ads-font-size-h2: 1.125rem; /* 18px */
+    --ads-font-size-h3: 1rem;     /* 16px */
+  }
+  
   .container {
-    padding: 1rem;
+    padding: var(--ads-space-sm);
   }
 
   .card {
-    padding: 1rem;
-    margin-top: 1rem;
+    padding: var(--ads-space-sm);
+    margin-top: var(--ads-space-sm);
+    border-radius: var(--ads-radius-sm);
   }
 
   .form-input {
-    padding: 0.625rem;
+    padding: 0.625rem var(--ads-space-sm);
   }
 
   .greeting-message {
-    font-size: 1rem;
-    padding: 1rem;
+    font-size: var(--ads-font-size-body);
+    padding: var(--ads-space-sm);
+  }
+}
+
+/* ========================================
+   High Contrast Mode Support
+   ======================================== */
+@media (prefers-contrast: high) {
+  :root {
+    --ads-border: #000000;
+    --ads-focus: #FEBA35;
+  }
+  
+  .btn-primary {
+    border-color: #000000;
+  }
+  
+  .form-input {
+    border-color: #000000;
+  }
+}
+
+/* ========================================
+   Reduced Motion Support
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

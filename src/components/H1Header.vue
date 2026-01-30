@@ -1,15 +1,17 @@
 <script setup>
 /**
  * H1Header Component
- * @standard DS-XX3
- * @description Reusable H1 component for page headers following DS-XX3 design standard
+ * @standard Alberta Design System (ADS)
+ * @description Reusable H1 component for page headers - H1 is exclusive to page titles
  * @prop {String} text - Required. The header text to display
  * 
- * DS-XX3 Compliance:
- * - Consistent typography (2rem desktop, 1.5rem tablet, 1.25rem mobile)
- * - Brand color accent border (#4a90d9)
- * - Responsive design with breakpoints at 768px and 480px
- * - Accessible with proper semantic HTML
+ * Alberta Design System Compliance:
+ * - H1 is exclusive to page titles (one per page)
+ * - Typography: Acumin Pro Semi Condensed, 2.25rem desktop
+ * - Brand color accent border (#0070C4 - ADS Blue)
+ * - Responsive: 768px tablet, 480px mobile breakpoints
+ * - Focus state: #FEBA35 for interactive elements
+ * - WCAG 2.1 AA accessibility compliance
  */
 
 const props = defineProps({
@@ -23,7 +25,7 @@ const props = defineProps({
 
 <template>
   <header class="header-wrapper">
-    <h1 class="page-header" role="heading" aria-level="1">
+    <h1 class="page-header">
       {{ text }}
     </h1>
   </header>
@@ -34,30 +36,31 @@ const props = defineProps({
   width: 100%;
 }
 
+/* Alberta Design System: H1 Page Title
+   H1 is exclusive to page title - only one per page */
 .page-header {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333333;
-  margin: 0 0 1.5rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #4a90d9;
+  font-family: var(--ads-font-family);
+  font-size: var(--ads-font-size-h1);
+  font-weight: var(--ads-font-weight-bold);
+  color: var(--ads-text-primary);
+  margin: 0 0 var(--ads-space-md) 0;
+  padding-bottom: var(--ads-space-xs);
+  border-bottom: 3px solid var(--ads-blue);
   text-align: center;
   line-height: 1.2;
 }
 
-/* DS-XX3: Tablet breakpoint */
+/* Alberta Design System: Tablet breakpoint (768px) */
 @media (max-width: 768px) {
   .page-header {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: var(--ads-space-sm);
   }
 }
 
-/* DS-XX3: Mobile breakpoint */
+/* Alberta Design System: Mobile breakpoint (480px) */
 @media (max-width: 480px) {
   .page-header {
-    font-size: 1.25rem;
-    padding-bottom: 0.375rem;
+    padding-bottom: 6px;
   }
 }
 </style>
