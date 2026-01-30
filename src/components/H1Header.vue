@@ -127,7 +127,6 @@ const props = defineProps({
       transparent 100%
     );
   }
-  
   .page-subtitle {
     font-size: var(--ads-font-size-small);
   }
@@ -137,10 +136,6 @@ const props = defineProps({
 @media (prefers-reduced-motion: reduce) {
   .header-wrapper {
     animation: none;
-  }
-}
-</style>
-
   }
 }
 </style>

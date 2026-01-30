@@ -127,7 +127,6 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(-10px);
 }
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .app-footer {
@@ -137,8 +136,5 @@ onMounted(() => {
   .footer-text {
     font-size: var(--ads-font-size-xs);
   }
-}
-</style>
-
 }
 </style>

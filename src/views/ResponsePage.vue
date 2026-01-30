@@ -402,7 +402,6 @@ const handleRetry = () => {
   justify-content: space-between;
   align-items: center;
   padding: var(--ads-space-xs) var(--ads-space-sm);
-  background-color: var(--ads-background-white);
   border-radius: var(--ads-radius-sm);
   border: 1px solid var(--ads-border-light);
 }
@@ -528,85 +527,6 @@ const handleRetry = () => {
   .success-icon,
   .error-icon {
     animation: none;
-  }
-}
-</style>
-
-  text-align: center;
-}
-
-/* Alberta Design System: Success State */
-.success-state {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ads-space-md);
-}
-
-/* Alberta Design System: Data Summary Section */
-.data-summary {
-  background-color: var(--ads-background);
-  border-radius: var(--ads-radius-sm);
-  padding: var(--ads-space-sm);
-}
-
-/* ADS: H3 used for subsection title - styled as label for visual hierarchy */
-.summary-title {
-  font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-small);
-  font-weight: var(--ads-font-weight-semibold);
-  color: var(--ads-text-secondary);
-  margin-bottom: var(--ads-space-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.summary-list {
-  margin: 0;
-}
-
-.summary-item {
-  display: flex;
-  gap: var(--ads-space-xs);
-  margin-bottom: var(--ads-space-xs);
-}
-
-.summary-item:last-child {
-  margin-bottom: 0;
-}
-
-.summary-item dt {
-  font-weight: var(--ads-font-weight-semibold);
-  color: var(--ads-text-secondary);
-}
-
-.summary-item dd {
-  margin: 0;
-  color: var(--ads-text-primary);
-}
-
-/* Alberta Design System: Navigation */
-.navigation {
-  display: flex;
-}
-
-.btn-secondary {
-  align-self: flex-start;
-}
-
-/* Alberta Design System: Responsive layout - Mobile breakpoint (480px) */
-@media (max-width: 480px) {
-  .summary-item {
-    flex-direction: column;
-    gap: calc(var(--ads-space-xs) / 2);
-  }
-  
-  .btn-secondary {
-    align-self: stretch;
-    width: 100%;
-  }
-  
-  .navigation {
-    width: 100%;
   }
 }
 </style>
