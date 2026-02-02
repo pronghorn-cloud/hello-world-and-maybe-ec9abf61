@@ -43,14 +43,22 @@ This application strictly adheres to the Alberta Design System specification (AB
 ## Features
 
 ### E-001: Welcome Page
-- E-001-001: Welcome message for users
-- E-001-002: Brief description of application purpose
-- E-001-003: Primary action button to continue
+- E-001-F-001: Welcome message for users
+- E-001-F-002: Name Input Field
+- E-001-F-003: Date Input Field with Date Picker
+- E-001-F-004: Form Layout and Structure
+- E-001-F-005: Submit Button and Form Action
+- E-001-F-006: Form Validation
+- E-001-F-007: Error Handling and User Feedback
 
 ### E-003: Response Page
-- E-003-001: Display confirmation message
-- E-003-002: Show summary of submitted information
-- E-003-003: Provide next steps or actions
+- E-003-F-001: Form Data Capture and Processing
+- E-003-F-002: Page Header Display
+- E-003-F-003: Dynamic Greeting Message Display
+- E-003-F-004: Back Navigation Button
+- E-003-F-005: Input Data Validation and Sanitization
+- E-003-F-006: Error Handling and Empy Statement Management
+- E-003-F-007: Responsive Page Layout and Styling
 
 ## Getting Started
 
