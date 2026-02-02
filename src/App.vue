@@ -1,13 +1,22 @@
 <template>
   <div id="app-container">
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <AppHeader />
     <router-view />
+    <AppFooter />
   </div>
 </template>
 
 <script>
+import AppHeader from './components/AppHeader.vue'
+import AppFooter from './components/AppFooter.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AppHeader,
+    AppFooter
+  }
 }
 </script>
 
