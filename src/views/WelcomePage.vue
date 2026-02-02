@@ -1,372 +1,168 @@
-<script setup>
-/**
- * WelcomePage Component
- * @standard Alberta Design System (ADS)
- * @version 2.1.0 - Rebuilt with strict ADS compliance
- * @description Entry form page with Name and Date fields
- * 
- * Requirements:
- * - E-001-F-006: Form validation (required fields for Name and Date)
- * - E-001-F-007: Error handling and user feedback
- * - E-003-F-001: Data capture for ResponsePage
- * - E-003-F-005: Input validation and sanitization
- * 
- * Alberta Design System Compliance:
- * - All colors from ADS CSS variables (--ads-*)
- * - Focus state #FEBA35 for all interactive elements
- * - Full component states (hover, focus, error, disabled)
- * - WCAG 2.1 AA accessibility compliance
- * - 8px spacing grid system
- * - Responsive: 768px tablet, 480px mobile breakpoints
- * - Reduced motion support
- */
+<template>
+  <!--
+    Welcome Page (E-001)
+    Requirements:
+    - E-001-001: Welcome message for users
+    - E-001-002: Brief description of application purpose
+    - E-001-003: Primary action button to continue
+    - ABD-001 Compliant: Focus states, H1 exclusive, 8px grid, responsive
+  -->
+  <main id="main-content" class="welcome-page" role="main">
+    <div class="ads-container">
+      <section class="welcome-content ads-section" aria-labelledby="page-title">
+        <!-- H1 Header - Only ONE per page (ABD-001-002) -->
+        <H1Header
+          title="Welcome to Alberta Services"
+          subtitle="Your gateway to provincial services"
+          header-id="page-title"
+        />
+        
+        <!-- E-001-002: Brief description of application purpose -->
+        <div class="welcome-description">
+          <p>
+            This application provides easy access to Alberta government services.
+            We are committed to making your experience simple, accessible, and efficient.
+          </p>
+          <p>
+            Our platform is designed following the Alberta Design System standards,
+            ensuring accessibility for all Albertans.
+          </p>
+        </div>
+        
+        <!-- E-001-003: Primary action button to continue -->
+        <div class="welcome-actions">
+          <button
+            type="button"
+            class="ads-btn ads-btn-primary"
+            @click="handleContinue"
+            aria-describedby="continue-description"
+          >
+            Continue to Application
+          </button>
+          <span id="continue-description" class="visually-hidden">
+            Proceed to the main application response page
+          </span>
+        </div>
+        
+        <!-- Additional information section -->
+        <aside class="welcome-info" aria-label="Additional information">
+          <h2>What you can do</h2>
+          <ul class="feature-list">
+            <li>Access government services online</li>
+            <li>Submit applications and forms</li>
+            <li>Track your requests</li>
+            <li>Get support when you need it</li>
+          </ul>
+        </aside>
+      </section>
+    </div>
+  </main>
+</template>
 
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+<script>
 import H1Header from '../components/H1Header.vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter()
-
-// Form fields - Field 1 (Name) and Field 2 (Date)
-const name = ref('')
-const date = ref('')
-
-// Error states for user feedback
-const nameError = ref('')
-const dateError = ref('')
-const formError = ref('')
-
-// Loading state for submit button
-const isSubmitting = ref(false)
-
-/**
- * Input sanitization to prevent XSS and limit data length
- * @param {string} input - Raw user input
- * @returns {string} Sanitized input
- */
-const sanitizeInput = (input) => {
-  if (typeof input !== 'string') return ''
-  return input
-    .trim()
-    .replace(/[<>"'&]/g, '')
-    .substring(0, 100)
-}
-
-/**
- * Form validation for Name field
- * @returns {boolean} Validation result
- */
-const validateName = () => {
-  const sanitized = sanitizeInput(name.value)
-  if (!sanitized) {
-    nameError.value = 'Name is required'
-    return false
-  }
-  if (sanitized.length < 2) {
-    nameError.value = 'Name must be at least 2 characters'
-    return false
-  }
-  if (!/^[a-zA-Z\s-]+$/.test(sanitized)) {
-    nameError.value = 'Name can only contain letters, spaces, and hyphens'
-    return false
-  }
-  nameError.value = ''
-  return true
-}
-
-/**
- * Form validation for Date field
- * @returns {boolean} Validation result
- */
-const validateDate = () => {
-  if (!date.value) {
-    dateError.value = 'Date is required'
-    return false
-  }
-  const selectedDate = new Date(date.value)
-  if (isNaN(selectedDate.getTime())) {
-    dateError.value = 'Please enter a valid date'
-    return false
-  }
-  dateError.value = ''
-  return true
-}
-
-/**
- * Computed property for button state
- * @returns {boolean} Form validity status
- */
-const isFormValid = computed(() => {
-  return name.value.trim().length >= 2 && date.value !== ''
-})
-
-/**
- * Form submission handler with validation and data persistence
- */
-const handleSubmit = async () => {
-  formError.value = ''
-  
-  const isNameValid = validateName()
-  const isDateValid = validateDate()
-  
-  if (!isNameValid || !isDateValid) {
-    formError.value = 'Please correct the errors above'
-    return
-  }
-  
-  try {
-    isSubmitting.value = true
+export default {
+  name: 'WelcomePage',
+  components: {
+    H1Header
+  },
+  setup() {
+    const router = useRouter()
     
-    await new Promise(resolve => setTimeout(resolve, 300))
-    
-    const formData = {
-      name: sanitizeInput(name.value),
-      date: date.value,
-      timestamp: Date.now()
+    const handleContinue = () => {
+      router.push({ name: 'Response' })
     }
     
-    sessionStorage.setItem('formData', JSON.stringify(formData))
-    router.push({ name: 'Response' })
-  } catch (error) {
-    formError.value = 'An error occurred. Please try again.'
-    console.error('Form submission error:', error)
-  } finally {
-    isSubmitting.value = false
+    return {
+      handleContinue
+    }
   }
-}
-
-/**
- * Clear name error on input
- */
-const clearNameError = () => {
-  if (nameError.value) nameError.value = ''
-  if (formError.value) formError.value = ''
-}
-
-/**
- * Clear date error on input
- */
-const clearDateError = () => {
-  if (dateError.value) dateError.value = ''
-  if (formError.value) formError.value = ''
 }
 </script>
 
-<template>
-  <div class="page-container">
-    <div class="container">
-      <article class="card">
-        <!-- ADS: H1Header component - H1 exclusive to page title -->
-        <H1Header 
-          text="Welcome - HelloWorld" 
-          subtitle="Enter your details to get started"
-        />
-        
-        <form 
-          @submit.prevent="handleSubmit" 
-          novalidate 
-          aria-label="Welcome form"
-          class="welcome-form"
-        >
-          <!-- ADS: General Form Error Alert -->
-          <transition name="fade">
-            <div 
-              v-if="formError" 
-              class="error-alert" 
-              role="alert" 
-              aria-live="polite"
-            >
-              {{ formError }}
-            </div>
-          </transition>
-          
-          <!-- ADS: Field 1 - Name (Required) -->
-          <div class="form-group">
-            <label for="name" class="form-label">
-              <span class="label-text">Name</span>
-              <span class="required-indicator" aria-label="required">*</span>
-            </label>
-            <input
-              id="name"
-              v-model="name"
-              type="text"
-              class="form-input"
-              :class="{ error: nameError }"
-              :aria-invalid="!!nameError"
-              :aria-describedby="nameError ? 'name-error' : 'name-hint'"
-              placeholder="Enter your name"
-              @input="clearNameError"
-              @blur="validateName"
-              autocomplete="name"
-              maxlength="100"
-              required
-            />
-            <p 
-              v-if="!nameError" 
-              id="name-hint" 
-              class="form-hint"
-            >
-              Letters, spaces, and hyphens only
-            </p>
-            <transition name="fade">
-              <p 
-                v-if="nameError" 
-                id="name-error" 
-                class="error-message" 
-                role="alert" 
-                aria-live="polite"
-              >
-                {{ nameError }}
-              </p>
-            </transition>
-          </div>
-          
-          <!-- ADS: Field 2 - Date (Required) -->
-          <div class="form-group">
-            <label for="date" class="form-label">
-              <span class="label-text">Date</span>
-              <span class="required-indicator" aria-label="required">*</span>
-            </label>
-            <input
-              id="date"
-              v-model="date"
-              type="date"
-              class="form-input"
-              :class="{ error: dateError }"
-              :aria-invalid="!!dateError"
-              :aria-describedby="dateError ? 'date-error' : 'date-hint'"
-              @input="clearDateError"
-              @blur="validateDate"
-              required
-            />
-            <p 
-              v-if="!dateError" 
-              id="date-hint" 
-              class="form-hint"
-            >
-              Select a date from the calendar
-            </p>
-            <transition name="fade">
-              <p 
-                v-if="dateError" 
-                id="date-error" 
-                class="error-message" 
-                role="alert" 
-                aria-live="polite"
-              >
-                {{ dateError }}
-              </p>
-            </transition>
-          </div>
-          
-          <!-- ADS: Submit Button -->
-          <div class="form-actions">
-            <button
-              type="submit"
-              class="btn btn-primary btn-submit"
-              :disabled="isSubmitting || !isFormValid"
-              :aria-busy="isSubmitting"
-            >
-              <span v-if="!isSubmitting" class="btn-content">
-                <span>Submit</span>
-                <span class="btn-icon" aria-hidden="true">→</span>
-              </span>
-              <span v-else class="btn-loading">
-                <span class="btn-spinner" aria-hidden="true"></span>
-                <span>Submitting...</span>
-              </span>
-            </button>
-          </div>
-        </form>
-      </article>
-    </div>
-  </div>
-</template>
-
 <style scoped>
-/**
- * Alberta Design System - WelcomePage Scoped Styles
- * Most styles are now in global styles.css
- * Only component-specific styles remain here
- */
-
-/* Form container layout */
-.welcome-form {
-  display: flex;
-  flex-direction: column;
+.welcome-page {
+  min-height: 100vh;
+  background-color: var(--ads-bg-primary);
 }
 
-/* ADS: Fade transition for validation messages */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity var(--ads-transition-fast), 
-              transform var(--ads-transition-fast);
+.welcome-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
+.welcome-description {
+  margin-bottom: var(--ads-space-4);
 }
 
-/* ADS: Button content and loading states */
-.btn-content,
-.btn-loading {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--ads-space-xs);
+.welcome-description p {
+  font-size: var(--ads-font-size-body);
+  line-height: var(--ads-line-height-relaxed);
+  color: var(--ads-text-primary);
+  margin-bottom: var(--ads-space-2);
 }
 
-/* ADS: Button icon */
-.btn-icon {
-  font-size: var(--ads-font-size-md);
-  transition: transform var(--ads-transition-fast);
+.welcome-actions {
+  margin-bottom: var(--ads-space-6);
 }
 
-.btn-primary:hover:not(:disabled) .btn-icon {
-  transform: translateX(4px);
+.welcome-info {
+  background-color: var(--ads-bg-secondary);
+  padding: var(--ads-space-3);
+  border-radius: var(--ads-radius-md);
+  border-left: 4px solid var(--ads-blue);
 }
 
-/* ADS: Loading spinner */
-.btn-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--ads-text-inverse);
-  border-top-color: transparent;
-  border-radius: var(--ads-radius-full);
-  animation: btn-spin 0.8s linear infinite;
+.welcome-info h2 {
+  font-size: var(--ads-font-size-h3);
+  margin-bottom: var(--ads-space-2);
 }
 
-@keyframes btn-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* ADS: Responsive - Tablet (768px) */
-@media (max-width: 768px) {
-  .page-container {
-    padding-top: var(--ads-space-md);
-  }
+.feature-list li {
+  position: relative;
+  padding-left: var(--ads-space-3);
+  margin-bottom: var(--ads-space-1);
+  line-height: var(--ads-line-height-normal);
 }
 
-/* ADS: Responsive - Mobile (480px) */
-@media (max-width: 480px) {
-  .page-container {
-    padding-top: var(--ads-space-sm);
-    align-items: flex-start;
-  }
+.feature-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 8px;
+  height: 8px;
+  background-color: var(--ads-blue);
+  border-radius: 50%;
 }
 
-/* ADS: Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .btn-spinner {
-    animation: none;
+/* Responsive Styles (ABD-001-004) */
+@media screen and (max-width: 768px) {
+  .welcome-content {
+    padding: 0 var(--ads-space-2);
   }
   
-  .btn-primary:hover:not(:disabled) .btn-icon {
-    transform: none;
+  .welcome-info {
+    padding: var(--ads-space-2);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .welcome-actions {
+    margin-bottom: var(--ads-space-4);
+  }
+  
+  .welcome-info h2 {
+    font-size: var(--ads-font-size-body);
+    font-weight: 600;
   }
 }
 </style>

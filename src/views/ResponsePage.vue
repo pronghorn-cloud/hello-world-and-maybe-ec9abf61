@@ -1,364 +1,310 @@
-<script setup>
-/**
- * ResponsePage Component
- * @standard Alberta Design System (ADS)
- * @version 2.1.0 - Rebuilt with strict ADS compliance
- * @description Displays personalized greeting with submitted form data
- * 
- * Requirements:
- * - E-003-F-001: Capture data from WelcomePage (Name, Date)
- * - E-003-F-002: Page header "HelloWorld Response"
- * - E-003-F-003: Dynamic greeting message "Hello [Name], the date is [Date]"
- * - E-003-F-004: Back navigation button to return to form
- * - E-003-F-005: Validation of retrieved data
- * - E-003-F-006: Error handling (direct access, missing data, session timeout)
- * - E-003-F-007: Responsive layout for all screen sizes
- * 
- * Alberta Design System Compliance:
- * - All colors from ADS CSS variables (--ads-*)
- * - Focus state #FEBA35 for all interactive elements
- * - Full component states (hover, focus, error, disabled)
- * - WCAG 2.1 AA accessibility compliance
- * - 8px spacing grid system
- * - Responsive: 768px tablet, 480px mobile breakpoints
- * - Reduced motion support
- */
+<template>
+  <!--
+    Response Page (E-003)
+    Requirements:
+    - E-003-001: Display confirmation message
+    - E-003-002: Show summary of submitted information
+    - E-003-003: Provide next steps or actions
+    - ABD-001 Compliant: Focus states, H1 exclusive, 8px grid, responsive
+  -->
+  <main id="main-content" class="response-page" role="main">
+    <div class="ads-container">
+      <section class="response-content ads-section" aria-labelledby="page-title">
+        <!-- H1 Header - Only ONE per page (ABD-001-002) -->
+        <H1Header
+          title="Response Received"
+          subtitle="Thank you for your submission"
+          header-id="page-title"
+        />
+        
+        <!-- E-003-001: Display confirmation message -->
+        <div class="confirmation-message" role="status" aria-live="polite">
+          <div class="confirmation-icon" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="24" fill="#005A9C"/>
+              <path d="M20 24L23 27L28 21" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="confirmation-text">
+            Your information has been successfully submitted. A confirmation has been sent to your email address.
+          </p>
+        </div>
+        
+        <!-- E-003-002: Show summary of submitted information -->
+        <div class="submission-summary">
+          <h2>Submission Summary</h2>
+          <dl class="summary-list">
+            <div class="summary-item">
+              <dt>Reference Number</dt>
+              <dd>{{ referenceNumber }}</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Submission Date</dt>
+              <dd>{{ submissionDate }}</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Status</dt>
+              <dd>
+                <span class="status-badge status-received">Received</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
+        
+        <!-- E-003-003: Provide next steps or actions -->
+        <div class="next-steps">
+          <h2>Next Steps</h2>
+          <ol class="steps-list">
+            <li>
+              <strong>Confirmation Email:</strong> Check your inbox for a detailed confirmation email.
+            </li>
+            <li>
+              <strong>Processing Time:</strong> Your submission will be reviewed within 5 business days.
+            </li>
+            <li>
+              <strong>Updates:</strong> You will receive email notifications about the status of your submission.
+            </li>
+          </ol>
+        </div>
+        
+        <!-- Action buttons -->
+        <div class="response-actions">
+          <button
+            type="button"
+            class="ads-btn ads-btn-primary"
+            @click="handlePrint"
+          >
+            Print Confirmation
+          </button>
+          <button
+            type="button"
+            class="ads-btn ads-btn-secondary"
+            @click="handleReturnHome"
+          >
+            Return to Home
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</template>
 
-import { ref, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
+<script>
 import H1Header from '../components/H1Header.vue'
+import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
 
-const router = useRouter()
-
-// State management
-const formData = ref(null)
-const error = ref('')
-const isLoading = ref(true)
-
-// Session timeout duration (30 minutes)
-const SESSION_TIMEOUT = 30 * 60 * 1000
-
-/**
- * Load and validate form data on mount
- */
-onMounted(async () => {
-  await new Promise(resolve => setTimeout(resolve, 400))
-  
-  try {
-    const storedData = sessionStorage.getItem('formData')
+export default {
+  name: 'ResponsePage',
+  components: {
+    H1Header
+  },
+  setup() {
+    const router = useRouter()
+    const referenceNumber = ref('')
+    const submissionDate = ref('')
     
-    // Check for missing data (direct access)
-    if (!storedData) {
-      error.value = 'No form data found. Please fill out the form first.'
-      isLoading.value = false
-      return
+    const generateReferenceNumber = () => {
+      const timestamp = Date.now().toString(36).toUpperCase()
+      const random = Math.random().toString(36).substring(2, 6).toUpperCase()
+      return `AB-${timestamp}-${random}`
     }
     
-    const parsed = JSON.parse(storedData)
-    
-    // Check for session timeout
-    if (parsed.timestamp && Date.now() - parsed.timestamp > SESSION_TIMEOUT) {
-      sessionStorage.removeItem('formData')
-      error.value = 'Your session has expired. Please fill out the form again.'
-      isLoading.value = false
-      return
+    const formatDate = () => {
+      return new Intl.DateTimeFormat('en-CA', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(new Date())
     }
     
-    // Validate retrieved data integrity
-    if (!parsed.name || typeof parsed.name !== 'string' || parsed.name.trim() === '') {
-      error.value = 'Invalid form data. Please fill out the form again.'
-      isLoading.value = false
-      return
+    const handlePrint = () => {
+      window.print()
     }
     
-    if (!parsed.date || typeof parsed.date !== 'string') {
-      error.value = 'Invalid form data. Please fill out the form again.'
-      isLoading.value = false
-      return
+    const handleReturnHome = () => {
+      router.push({ name: 'Welcome' })
     }
     
-    formData.value = parsed
-    isLoading.value = false
-  } catch (err) {
-    console.error('Error loading form data:', err)
-    error.value = 'An error occurred while loading your data. Please try again.'
-    isLoading.value = false
-  }
-})
-
-/**
- * Dynamic greeting message
- * @returns {string} Formatted greeting message
- */
-const greetingMessage = computed(() => {
-  if (!formData.value) return ''
-  const { name, date } = formData.value
-  return `Hello ${name}, the date is ${formatDate(date)}.`
-})
-
-/**
- * Format date for display
- * @param {string} dateString - ISO date string
- * @returns {string} Formatted date string
- */
-const formatDate = (dateString) => {
-  try {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    onMounted(() => {
+      referenceNumber.value = generateReferenceNumber()
+      submissionDate.value = formatDate()
     })
-  } catch (err) {
-    console.error('Date formatting error:', err)
-    return dateString
+    
+    return {
+      referenceNumber,
+      submissionDate,
+      handlePrint,
+      handleReturnHome
+    }
   }
-}
-
-/**
- * Back navigation handler
- */
-const handleBack = () => {
-  sessionStorage.removeItem('formData')
-  router.push({ name: 'Welcome' })
-}
-
-/**
- * Retry handler for error state
- */
-const handleRetry = () => {
-  sessionStorage.removeItem('formData')
-  router.push({ name: 'Welcome' })
 }
 </script>
 
-<template>
-  <div class="page-container">
-    <div class="container">
-      <article class="card">
-        <!-- ADS: H1Header - H1 exclusive to page title -->
-        <H1Header text="HelloWorld Response" />
-        
-        <!-- ADS: Loading State -->
-        <transition name="fade" mode="out-in">
-          <div 
-            v-if="isLoading" 
-            key="loading" 
-            class="state-loading" 
-            aria-live="polite"
-          >
-            <div class="loading-spinner" aria-hidden="true">
-              <div class="spinner-ring"></div>
-            </div>
-            <p class="loading-text">Loading your greeting...</p>
-          </div>
-          
-          <!-- ADS: Error State -->
-          <section 
-            v-else-if="error" 
-            key="error" 
-            class="state-error"
-          >
-            <div class="error-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8" x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-            </div>
-            <div class="error-alert" role="alert" aria-live="assertive">
-              {{ error }}
-            </div>
-            <button 
-              type="button" 
-              class="btn btn-primary" 
-              @click="handleRetry"
-            >
-              <span>Go to Form</span>
-              <span class="btn-icon" aria-hidden="true">→</span>
-            </button>
-          </section>
-          
-          <!-- ADS: Success State -->
-          <section 
-            v-else 
-            key="success" 
-            class="state-success"
-          >
-            <!-- Success icon -->
-            <div class="success-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                <polyline points="22 4 12 14.01 9 11.01"/>
-              </svg>
-            </div>
-            
-            <!-- ADS: Dynamic greeting message -->
-            <div 
-              class="greeting-message" 
-              role="status" 
-              aria-live="polite"
-            >
-              {{ greetingMessage }}
-            </div>
-            
-            <!-- ADS: Data summary section -->
-            <div class="data-summary">
-              <p class="summary-title">
-                <span class="title-icon" aria-hidden="true">📋</span>
-                <span>Submitted Information</span>
-              </p>
-              <dl class="summary-list">
-                <div class="summary-item">
-                  <dt class="summary-label">
-                    <span class="label-icon" aria-hidden="true">👤</span>
-                    <span>Name</span>
-                  </dt>
-                  <dd class="summary-value">{{ formData.name }}</dd>
-                </div>
-                <div class="summary-item">
-                  <dt class="summary-label">
-                    <span class="label-icon" aria-hidden="true">📅</span>
-                    <span>Date</span>
-                  </dt>
-                  <dd class="summary-value">{{ formatDate(formData.date) }}</dd>
-                </div>
-              </dl>
-            </div>
-            
-            <!-- ADS: Back navigation -->
-            <nav class="navigation" aria-label="Page navigation">
-              <button 
-                type="button" 
-                class="btn btn-secondary" 
-                @click="handleBack"
-                aria-label="Go back to the welcome form"
-              >
-                <span class="btn-icon btn-icon-left" aria-hidden="true">←</span>
-                <span>Back to Form</span>
-              </button>
-            </nav>
-          </section>
-        </transition>
-      </article>
-    </div>
-  </div>
-</template>
-
 <style scoped>
-/**
- * Alberta Design System - ResponsePage Scoped Styles
- * Most styles are now in global styles.css
- * Only component-specific styles remain here
- */
-
-/* Icon styling for summary section */
-.title-icon,
-.label-icon {
-  font-size: 1em;
+.response-page {
+  min-height: 100vh;
+  background-color: var(--ads-bg-primary);
 }
 
-/* ADS: Button icon */
-.btn-icon {
-  font-size: var(--ads-font-size-md);
-  transition: transform var(--ads-transition-fast);
+.response-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.btn-icon-left {
-  margin-right: var(--ads-space-2xs);
+/* Confirmation Message (E-003-001) */
+.confirmation-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ads-space-2);
+  background-color: #E8F4FD;
+  border: 2px solid var(--ads-blue);
+  border-radius: var(--ads-radius-md);
+  padding: var(--ads-space-3);
+  margin-bottom: var(--ads-space-4);
 }
 
-.btn-secondary:hover:not(:disabled) .btn-icon-left {
-  transform: translateX(-4px);
+.confirmation-icon {
+  flex-shrink: 0;
 }
 
-.btn-primary:hover:not(:disabled) .btn-icon {
-  transform: translateX(4px);
+.confirmation-text {
+  font-size: var(--ads-font-size-body);
+  line-height: var(--ads-line-height-relaxed);
+  color: var(--ads-text-primary);
+  margin: 0;
+  padding-top: var(--ads-space-1);
 }
 
-/* ADS: Fade Transition for state changes */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity var(--ads-transition-normal) ease, 
-              transform var(--ads-transition-normal) ease;
+/* Submission Summary (E-003-002) */
+.submission-summary {
+  background-color: var(--ads-bg-secondary);
+  border-radius: var(--ads-radius-md);
+  padding: var(--ads-space-3);
+  margin-bottom: var(--ads-space-4);
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(8px);
+.submission-summary h2 {
+  font-size: var(--ads-font-size-h3);
+  margin-bottom: var(--ads-space-2);
 }
 
-/* ADS: Responsive - Tablet (768px) */
-@media (max-width: 768px) {
-  .page-container {
-    padding-top: var(--ads-space-md);
+.summary-list {
+  display: grid;
+  gap: var(--ads-space-2);
+  margin: 0;
+}
+
+.summary-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ads-space-1);
+  padding-bottom: var(--ads-space-2);
+  border-bottom: 1px solid var(--ads-divider);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.summary-item dt {
+  font-weight: 600;
+  color: var(--ads-text-secondary);
+  min-width: 160px;
+}
+
+.summary-item dd {
+  margin: 0;
+  color: var(--ads-text-primary);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: var(--ads-space-1) var(--ads-space-2);
+  border-radius: var(--ads-radius-sm);
+  font-size: var(--ads-font-size-small);
+  font-weight: 600;
+}
+
+.status-received {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+/* Next Steps (E-003-003) */
+.next-steps {
+  margin-bottom: var(--ads-space-4);
+}
+
+.next-steps h2 {
+  font-size: var(--ads-font-size-h3);
+  margin-bottom: var(--ads-space-2);
+}
+
+.steps-list {
+  padding-left: var(--ads-space-3);
+  margin: 0;
+}
+
+.steps-list li {
+  margin-bottom: var(--ads-space-2);
+  line-height: var(--ads-line-height-relaxed);
+}
+
+.steps-list li strong {
+  color: var(--ads-blue);
+}
+
+/* Action Buttons */
+.response-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ads-space-2);
+}
+
+/* Responsive Styles (ABD-001-004) */
+@media screen and (max-width: 768px) {
+  .response-content {
+    padding: 0 var(--ads-space-2);
   }
   
-  .greeting-message {
-    font-size: var(--ads-font-size-md);
-    padding: var(--ads-space-sm) var(--ads-space-md);
-  }
-  
-  .success-icon {
-    width: 48px;
-    height: 48px;
-  }
-}
-
-/* ADS: Responsive - Mobile (480px) */
-@media (max-width: 480px) {
-  .page-container {
-    padding-top: var(--ads-space-sm);
+  .confirmation-message {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
   
   .summary-item {
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--ads-space-2xs);
+    gap: 0;
   }
   
-  .navigation {
-    width: 100%;
-  }
-  
-  .btn-secondary {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .greeting-message {
-    font-size: var(--ads-font-size-body);
-    padding: var(--ads-space-sm);
-  }
-  
-  .success-icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .error-icon {
-    width: 48px;
-    height: 48px;
+  .summary-item dt {
+    min-width: auto;
   }
 }
 
-/* ADS: Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .spinner-ring {
-    animation: none;
+@media screen and (max-width: 480px) {
+  .response-actions {
+    flex-direction: column;
   }
   
-  .state-success,
-  .success-icon,
-  .error-icon {
-    animation: none;
+  .response-actions .ads-btn {
+    width: 100%;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .response-actions {
+    display: none;
   }
   
-  .btn-secondary:hover:not(:disabled) .btn-icon-left,
-  .btn-primary:hover:not(:disabled) .btn-icon {
-    transform: none;
+  .response-page {
+    min-height: auto;
   }
 }
 </style>

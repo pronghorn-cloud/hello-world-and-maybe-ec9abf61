@@ -1,87 +1,56 @@
-# HelloWorld Vue App
+# Alberta Design System Application
 
-A Vue 3 application that displays a personalized greeting based on user input.
+A Vue 3 application built with strict compliance to the Alberta Design System (ADS) standards.
 
-## Requirements Implementation
+## Tech Stack
 
-### E-001: HelloWorld Entry Form (WelcomePage)
+- **Vue**: 3.5.24
+- **Vite**: 7.2.4
+- **Vue Router**: 4.5.x
+- **Language**: JavaScript (no TypeScript)
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| E-001-F-006 | Form validation (required fields for Name and Date) | ✅ Implemented |
-| E-001-F-007 | Error handling and user feedback | ✅ Implemented |
+## ADS Compliance
 
-### E-003: HelloWorld Response Page
+This application strictly adheres to the Alberta Design System specification (ABD-001):
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| E-003-F-001 | Capture form data (Name, Date) from WelcomePage | ✅ Implemented |
-| E-003-F-002 | Page header "HelloWorld Response" | ✅ Implemented |
-| E-003-F-003 | Dynamic greeting "Hello [Name], the date is [Date]" | ✅ Implemented |
-| E-003-F-004 | Back navigation button to return to form | ✅ Implemented |
-| E-003-F-005 | Validation of retrieved data | ✅ Implemented |
-| E-003-F-006 | Error handling (direct access, missing data, timeout) | ✅ Implemented |
-| E-003-F-007 | Responsive layout for all screen sizes | ✅ Implemented |
+### ABD-001-001: Focus States
+- All interactive elements have visible focus indicators
+- Focus color: `#FEBA35`
+- Focus ring: 3px solid with 2px offset
 
-### ABD-001: H1 Component Standard
+### ABD-001-002: Typography
+- Font family: Acumin Pro Semi Condensed
+- H1 is exclusive to page title (only ONE per page)
+- Consistent heading hierarchy
 
-| Requirement | Description | Status |
-|-------------|-------------|--------|
-| ABD-001 | Complete AB Design System | ✅ Implemented |
+### ABD-001-003: Spacing
+- 8px grid system for all spacing
+- CSS custom properties for consistent spacing values
 
-## Tech Stack (TS-001)
+### ABD-001-004: Responsive Design
+- Tablet breakpoint: 768px
+- Mobile breakpoint: 480px
+- Mobile-first responsive approach
 
-| Technology | Version | Notes |
-|------------|---------|-------|
-| Vue | 3.5.24 | Composition API with `<script setup>` |
-| Vite | 7.2.4 | Build tool and dev server |
-| Vue Router | 4.3.0 | Client-side routing |
-| JavaScript | ES6+ | No TypeScript |
+### WCAG 2.1 AA Compliance
+- Skip links for keyboard navigation
+- Proper ARIA labels and roles
+- Minimum touch targets (44x44px)
+- Color contrast compliance
+- Reduced motion support
+- High contrast mode support
 
 ## Features
 
-- **WelcomePage**: Entry form with Name and Date fields
-  - Real-time validation on blur
-  - Input sanitization (XSS prevention)
-  - Accessible form with ARIA attributes
-  - Disabled submit until valid
+### E-001: Welcome Page
+- E-001-001: Welcome message for users
+- E-001-002: Brief description of application purpose
+- E-001-003: Primary action button to continue
 
-- **ResponsePage**: Personalized greeting display
-  - Dynamic greeting message
-  - Session timeout handling (30 minutes)
-  - Data summary display
-  - Back navigation
-
-- **Responsive Design**: Optimized for all screen sizes
-  - Desktop (> 768px)
-  - Tablet (481px - 768px)
-  - Mobile (≤ 480px)
-
-- **Accessibility**: WCAG compliant
-  - Semantic HTML elements
-  - ARIA labels and roles
-  - Focus management
-  - Error announcements
-
-## Project Structure
-
-```
-├── index.html                 # HTML entry point
-├── package.json               # Dependencies and scripts
-├── vite.config.js             # Vite configuration
-└── src/
-    ├── main.js                # App entry point
-    ├── App.vue                # Root component
-    ├── assets/
-    │   └── styles.css         # Global styles (DS-XX3)
-    ├── components/
-    │   └── H1Header.vue       # DS-XX3 H1 component
-    ├── router/
-    │   └── index.js           # Vue Router config
-    └── views/
-        ├── WelcomePage.vue    # E-001 Entry form
-        └── ResponsePage.vue   # E-003 Response page
-```
+### E-003: Response Page
+- E-003-001: Display confirmation message
+- E-003-002: Show summary of submitted information
+- E-003-003: Provide next steps or actions
 
 ## Getting Started
 
@@ -93,47 +62,56 @@ A Vue 3 application that displays a personalized greeting based on user input.
 ### Installation
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd helloworld-vue-app
-
-# Install dependencies
 npm install
 ```
 
 ### Development
 
 ```bash
-# Start development server (http://localhost:3000)
 npm run dev
 ```
 
 ### Production Build
 
 ```bash
-# Build for production
 npm run build
+```
 
-# Preview production build
+### Preview Production Build
+
+```bash
 npm run preview
 ```
 
-## Browser Support
+## Project Structure
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+```
+├── index.html              # Entry HTML file
+├── package.json            # Dependencies and scripts
+├── vite.config.js          # Vite configuration
+├── src/
+│   ├── main.js             # Vue app entry point
+│   ├── App.vue             # Root component
+│   ├── assets/
+│   │   └── styles.css      # ADS global styles
+│   ├── components/
+│   │   └── H1Header.vue    # Reusable H1 component
+│   ├── router/
+│   │   └── index.js        # Vue Router configuration
+│   └── views/
+│       ├── WelcomePage.vue # E-001 Welcome page
+│       └── ResponsePage.vue # E-003 Response page
+```
 
-## Standards Compliance
+## Color Palette
 
-This project adheres to:
-
-- **TS-001**: Technology stack requirements
-- **ABD-001**: AB Complete Design System standard
-- **E-001**: HelloWorld Entry Form requirements
-- **E-003**: HelloWorld Response Page requirements
+| Color | Hex | Usage |
+|-------|-----|-------|
+| Blue | #0070C4 | Primary actions, links |
+| Circle Blue | #005A9C | Hover states, icons |
+| Divider | #6A6D70 | Borders, secondary text |
+| Focus | #FEBA35 | Focus indicators |
 
 ## License
 
-Private - All rights reserved
+Government of Alberta
