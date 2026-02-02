@@ -205,10 +205,10 @@ const handleRetry = () => {
             
             <!-- ADS: Data summary section -->
             <div class="data-summary">
-              <h2 class="summary-title">
+              <p class="summary-title">
                 <span class="title-icon" aria-hidden="true">📋</span>
                 <span>Submitted Information</span>
-              </h2>
+              </p>
               <dl class="summary-list">
                 <div class="summary-item">
                   <dt class="summary-label">

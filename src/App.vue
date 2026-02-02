@@ -127,6 +127,7 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(-10px);
 }
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .app-footer {
@@ -135,6 +136,27 @@ onMounted(() => {
   
   .footer-text {
     font-size: var(--ads-font-size-xs);
+  }
+}
+
+/* ADS: Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .ads-app {
+    transition: none;
+  }
+  
+  .skip-link {
+    transition: none;
+  }
+  
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
+  }
+  
+  .page-enter-from,
+  .page-leave-to {
+    transform: none;
   }
 }
 </style>
