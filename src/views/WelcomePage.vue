@@ -158,7 +158,7 @@ const clearDateError = () => {
       <article class="card">
         <!-- ADS: H1Header component - H1 exclusive to page title -->
         <H1Header 
-          text="Welcome" 
+          text="Welcome - HelloWorld" 
           subtitle="Enter your details to get started"
         />
         
