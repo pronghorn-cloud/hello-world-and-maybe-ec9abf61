@@ -23,13 +23,20 @@ onMounted(() => {
   }, 50)
 })
 </script>
-
 <template>
   <div class="ads-app" :class="{ 'is-loaded': isLoaded }">
     <!-- ADS: Skip link for keyboard accessibility -->
     <a href="#main-content" class="skip-link">
       Skip to main content
     </a>
+    
+    <!-- ADS: Page Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <span class="app-logo" aria-hidden="true">🏛️</span>
+        <span class="app-title">HelloWorld Application</span>
+      </div>
+    </header>
     
     <!-- Main application content -->
     <main id="main-content" class="main-content" tabindex="-1">
@@ -40,9 +47,9 @@ onMounted(() => {
       </RouterView>
     </main>
     
-    <!-- App footer -->
+    <!-- ADS: Page Footer -->
     <footer class="app-footer">
-      <p class="footer-text">Alberta Design System Compliant</p>
+      <p class="footer-text">© 2024 Government of Alberta | Alberta Design System Compliant</p>
     </footer>
   </div>
 </template>
@@ -58,7 +65,7 @@ onMounted(() => {
   flex-direction: column;
   background: linear-gradient(180deg, var(--ads-background) 0%, var(--ads-background-alt) 100%);
   opacity: 0;
-  transition: opacity 0.3s ease-out;
+  transition: opacity var(--ads-transition-normal);
 }
 
 .ads-app.is-loaded {
@@ -88,7 +95,7 @@ onMounted(() => {
   text-decoration: none;
   font-weight: var(--ads-font-weight-semibold);
   z-index: var(--ads-z-toast);
-  transition: top 0.2s ease-in-out;
+  transition: top var(--ads-transition-fast);
   box-shadow: var(--ads-shadow-lg);
 }
 
@@ -98,7 +105,34 @@ onMounted(() => {
   outline-offset: var(--ads-focus-offset);
 }
 
-/* App Footer */
+/* ADS: App Header */
+.app-header {
+  background-color: var(--ads-blue);
+  color: var(--ads-text-inverse);
+  padding: var(--ads-space-sm) var(--ads-space-md);
+  border-bottom: 4px solid var(--ads-focus);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: var(--ads-space-xs);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.app-logo {
+  font-size: var(--ads-font-size-xl);
+}
+
+.app-title {
+  font-family: var(--ads-font-family);
+  font-size: var(--ads-font-size-lg);
+  font-weight: var(--ads-font-weight-bold);
+  letter-spacing: var(--ads-letter-spacing-tight);
+}
+
+/* ADS: App Footer */
 .app-footer {
   padding: var(--ads-space-sm) var(--ads-space-md);
   text-align: center;
@@ -108,6 +142,7 @@ onMounted(() => {
 
 .footer-text {
   margin: 0;
+  font-family: var(--ads-font-family);
   font-size: var(--ads-font-size-small);
   color: var(--ads-text-muted);
 }
@@ -115,7 +150,7 @@ onMounted(() => {
 /* Page Transition Animations */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity var(--ads-transition-normal), transform var(--ads-transition-normal);
 }
 
 .page-enter-from {
@@ -128,14 +163,33 @@ onMounted(() => {
   transform: translateY(-10px);
 }
 
-/* Responsive adjustments */
+/* ADS: Responsive - Tablet (768px) */
 @media (max-width: 768px) {
+  .app-header {
+    padding: var(--ads-space-xs) var(--ads-space-sm);
+  }
+  
+  .app-title {
+    font-size: var(--ads-font-size-md);
+  }
+  
   .app-footer {
     padding: var(--ads-space-xs) var(--ads-space-sm);
   }
   
   .footer-text {
     font-size: var(--ads-font-size-xs);
+  }
+}
+
+/* ADS: Responsive - Mobile (480px) */
+@media (max-width: 480px) {
+  .app-logo {
+    font-size: var(--ads-font-size-lg);
+  }
+  
+  .app-title {
+    font-size: var(--ads-font-size-body);
   }
 }
 
