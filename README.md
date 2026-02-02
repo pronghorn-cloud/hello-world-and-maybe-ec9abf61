@@ -4,9 +4,9 @@ A Vue 3 application built with strict compliance to the Alberta Design System (A
 
 ## Tech Stack
 
-- **Vue**: 3.5.24
-- **Vite**: 7.2.4
-- **Vue Router**: 4.5.x
+- **Vue**: ^3.4.27
+- **Vite**: ^5.2.11
+- **Vue Router**: ^4.3.2
 - **Language**: JavaScript (no TypeScript)
 
 ## ADS Compliance
