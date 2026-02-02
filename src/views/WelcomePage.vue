@@ -251,80 +251,33 @@ const clearDateError = () => {
                 v-if="dateError" 
                 id="date-error" 
                 class="error-message" 
-                role="alert" 
-                aria-live="polite"
-              >
-                {{ dateError }}
-              </p>
-            </transition>
-          </div>
-          
-          <!-- ADS: Submit Button with all states -->
-          <div class="form-actions">
-            <button
-              type="submit"
-              class="btn btn-primary btn-submit"
-              :disabled="!isFormValid || isSubmitting"
-              :aria-disabled="!isFormValid || isSubmitting"
-            >
-              <span v-if="isSubmitting" class="btn-loading">
-                <span class="btn-spinner" aria-hidden="true"></span>
-                <span>Processing...</span>
-              </span>
-              <span v-else class="btn-content">
-                <span>Submit</span>
-                <span class="btn-icon" aria-hidden="true">→</span>
-              </span>
-            </button>
-          </div>
-        </form>
-      </article>
-    </div>
-  </div>
-</template>
-
 <style scoped>
 /**
- * Alberta Design System - WelcomePage Styles
- * All values use ADS CSS variables for consistency
+ * Alberta Design System - WelcomePage Scoped Styles
+ * Most styles are now in global styles.css
+ * Only component-specific styles remain here
  */
 
-/* ADS: Page layout */
-.page-container {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: var(--ads-space-lg);
-}
-
-/* ADS: Form container */
+/* Form container layout */
 .welcome-form {
   display: flex;
   flex-direction: column;
 }
 
-/* ADS: Form hint text */
-.form-hint {
-  font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-small);
-  color: var(--ads-text-muted);
-  margin-top: var(--ads-space-2xs);
-  margin-bottom: 0;
-  line-height: var(--ads-line-height-normal);
+/* ADS: Fade transition for validation messages */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--ads-transition-fast), 
+              transform var(--ads-transition-fast);
 }
 
-/* ADS: Form actions container */
-.form-actions {
-  margin-top: var(--ads-space-md);
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
 }
+</style>
 
-/* ADS: Submit button full width */
-.btn-submit {
-  width: 100%;
-}
-
-/* ADS: Button content layout */
 .btn-content,
 .btn-loading {
   display: inline-flex;

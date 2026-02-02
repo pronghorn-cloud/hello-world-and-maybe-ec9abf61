@@ -237,204 +237,33 @@ const handleRetry = () => {
               >
                 <span class="btn-icon btn-icon-left" aria-hidden="true">←</span>
                 <span>Back to Form</span>
-              </button>
-            </nav>
-          </section>
-        </transition>
-      </article>
-    </div>
-  </div>
-</template>
-
 <style scoped>
 /**
- * Alberta Design System - ResponsePage Styles
- * All values use ADS CSS variables for consistency
+ * Alberta Design System - ResponsePage Scoped Styles
+ * Most styles are now in global styles.css
+ * Only component-specific styles remain here
  */
 
-/* ADS: Page layout */
-.page-container {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: var(--ads-space-lg);
-}
-
-/* ========================================
-   ADS: Loading State
-   ======================================== */
-.state-loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--ads-space-xl) var(--ads-space-lg);
-  gap: var(--ads-space-md);
-}
-
-.loading-spinner {
-  width: 48px;
-  height: 48px;
-}
-
-.spinner-ring {
-  width: 100%;
-  height: 100%;
-  border: 4px solid var(--ads-border-light);
-  border-top-color: var(--ads-blue);
-  border-radius: var(--ads-radius-full);
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.loading-text {
-  font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-body);
-  color: var(--ads-text-secondary);
-  margin: 0;
-}
-
-/* ========================================
-   ADS: Error State
-   ======================================== */
-.state-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--ads-space-md);
-}
-
-.error-icon {
-  width: 64px;
-  height: 64px;
-  color: var(--ads-error);
-  animation: fadeIn var(--ads-transition-normal) ease-out;
-}
-
-.error-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* ========================================
-   ADS: Success State
-   ======================================== */
-.state-success {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ads-space-md);
-  animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.success-icon {
-  width: 56px;
-  height: 56px;
-  color: var(--ads-success);
-  margin: 0 auto;
-  animation: scaleIn 0.4s ease-out;
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.success-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* ========================================
-   ADS: Greeting Message
-   ======================================== */
-.greeting-message {
-  background: linear-gradient(
-    135deg, 
-    var(--ads-success-light) 0%, 
-    var(--ads-background-white) 100%
-  );
-  border: 2px solid var(--ads-success);
-  border-left-width: 4px;
-  color: var(--ads-text-primary);
-  padding: var(--ads-space-md) var(--ads-space-lg);
-  border-radius: var(--ads-radius-md);
-  font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-lg);
-  font-weight: var(--ads-font-weight-semibold);
-  text-align: center;
-  line-height: var(--ads-line-height-relaxed);
-}
-
-/* ========================================
-   ADS: Data Summary Section
-   ======================================== */
-.data-summary {
-  background-color: var(--ads-background-alt);
-  border: 1px solid var(--ads-border-light);
-  border-radius: var(--ads-radius-md);
-  padding: var(--ads-space-md);
-}
-
-.summary-title {
-  font-family: var(--ads-font-family);
-  font-size: var(--ads-font-size-small);
-  font-weight: var(--ads-font-weight-semibold);
-  color: var(--ads-text-secondary);
-  margin: 0 0 var(--ads-space-sm) 0;
-  text-transform: uppercase;
-  letter-spacing: var(--ads-letter-spacing-wide);
-  display: flex;
-  align-items: center;
-  gap: var(--ads-space-xs);
-}
-
-.title-icon {
+/* Icon styling for summary section */
+.title-icon,
+.label-icon {
   font-size: 1em;
 }
 
-.summary-list {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ads-space-sm);
+/* ADS: Fade Transition for state changes */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--ads-transition-normal) ease, 
+              transform var(--ads-transition-normal) ease;
 }
 
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--ads-space-xs) var(--ads-space-sm);
-  background-color: var(--ads-background-white);
-  border-radius: var(--ads-radius-sm);
-  border: 1px solid var(--ads-border-light);
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
 }
+</style>
 
-.summary-label {
-  font-family: var(--ads-font-family);
   font-weight: var(--ads-font-weight-semibold);
   color: var(--ads-text-secondary);
   display: flex;

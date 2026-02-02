@@ -23,11 +23,11 @@ A Vue 3 application that displays a personalized greeting based on user input.
 | E-003-F-006 | Error handling (direct access, missing data, timeout) | ✅ Implemented |
 | E-003-F-007 | Responsive layout for all screen sizes | ✅ Implemented |
 
-### DS-XX3: H1 Component Standard
+### ABD-001: H1 Component Standard
 
 | Requirement | Description | Status |
 |-------------|-------------|--------|
-| DS-XX3 | Reusable H1Header component with consistent styling | ✅ Implemented |
+| ABD-001 | Complete AB Design System | ✅ Implemented |
 
 ## Tech Stack (TS-001)
 
@@ -130,7 +130,7 @@ npm run preview
 This project adheres to:
 
 - **TS-001**: Technology stack requirements
-- **DS-XX3**: Design system H1 component standard
+- **ABD-001**: AB Complete Design System standard
 - **E-001**: HelloWorld Entry Form requirements
 - **E-003**: HelloWorld Response Page requirements
 
