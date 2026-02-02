@@ -237,6 +237,15 @@ const handleRetry = () => {
               >
                 <span class="btn-icon btn-icon-left" aria-hidden="true">←</span>
                 <span>Back to Form</span>
+              </button>
+            </nav>
+          </section>
+        </transition>
+      </article>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 /**
  * Alberta Design System - ResponsePage Scoped Styles
@@ -250,46 +259,7 @@ const handleRetry = () => {
   font-size: 1em;
 }
 
-/* ADS: Fade Transition for state changes */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity var(--ads-transition-normal) ease, 
-              transform var(--ads-transition-normal) ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(8px);
-}
-</style>
-
-  font-weight: var(--ads-font-weight-semibold);
-  color: var(--ads-text-secondary);
-  display: flex;
-  align-items: center;
-  gap: var(--ads-space-xs);
-}
-
-.label-icon {
-  font-size: 1em;
-}
-
-.summary-value {
-  margin: 0;
-  font-family: var(--ads-font-family);
-  color: var(--ads-text-primary);
-  font-weight: var(--ads-font-weight-medium);
-}
-
-/* ========================================
-   ADS: Navigation
-   ======================================== */
-.navigation {
-  display: flex;
-  margin-top: var(--ads-space-xs);
-}
-
+/* ADS: Button icon */
 .btn-icon {
   font-size: var(--ads-font-size-md);
   transition: transform var(--ads-transition-fast);
@@ -307,9 +277,7 @@ const handleRetry = () => {
   transform: translateX(4px);
 }
 
-/* ========================================
-   ADS: Fade Transition
-   ======================================== */
+/* ADS: Fade Transition for state changes */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity var(--ads-transition-normal) ease, 
@@ -322,9 +290,7 @@ const handleRetry = () => {
   transform: translateY(8px);
 }
 
-/* ========================================
-   ADS: Responsive - Tablet (768px)
-   ======================================== */
+/* ADS: Responsive - Tablet (768px) */
 @media (max-width: 768px) {
   .page-container {
     padding-top: var(--ads-space-md);
@@ -341,9 +307,7 @@ const handleRetry = () => {
   }
 }
 
-/* ========================================
-   ADS: Responsive - Mobile (480px)
-   ======================================== */
+/* ADS: Responsive - Mobile (480px) */
 @media (max-width: 480px) {
   .page-container {
     padding-top: var(--ads-space-sm);
@@ -380,9 +344,7 @@ const handleRetry = () => {
   }
 }
 
-/* ========================================
-   ADS: Reduced Motion Support
-   ======================================== */
+/* ADS: Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   .spinner-ring {
     animation: none;

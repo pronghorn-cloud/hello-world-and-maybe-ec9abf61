@@ -251,6 +251,38 @@ const clearDateError = () => {
                 v-if="dateError" 
                 id="date-error" 
                 class="error-message" 
+                role="alert" 
+                aria-live="polite"
+              >
+                {{ dateError }}
+              </p>
+            </transition>
+          </div>
+          
+          <!-- ADS: Submit Button -->
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="btn btn-primary btn-submit"
+              :disabled="isSubmitting || !isFormValid"
+              :aria-busy="isSubmitting"
+            >
+              <span v-if="!isSubmitting" class="btn-content">
+                <span>Submit</span>
+                <span class="btn-icon" aria-hidden="true">→</span>
+              </span>
+              <span v-else class="btn-loading">
+                <span class="btn-spinner" aria-hidden="true"></span>
+                <span>Submitting...</span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </article>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 /**
  * Alberta Design System - WelcomePage Scoped Styles
@@ -276,8 +308,8 @@ const clearDateError = () => {
   opacity: 0;
   transform: translateY(-4px);
 }
-</style>
 
+/* ADS: Button content and loading states */
 .btn-content,
 .btn-loading {
   display: inline-flex;
@@ -310,19 +342,6 @@ const clearDateError = () => {
   to {
     transform: rotate(360deg);
   }
-}
-
-/* ADS: Fade transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity var(--ads-transition-fast), 
-              transform var(--ads-transition-fast);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
 }
 
 /* ADS: Responsive - Tablet (768px) */
