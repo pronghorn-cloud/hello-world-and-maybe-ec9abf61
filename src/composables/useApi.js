@@ -1,69 +1,52 @@
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-export function useApi() {
-  const loading = ref(false)
-  const error = ref(null)
-  const data = ref(null)
+/**
+ * useApi Composable
+ * Provides reactive state management for API calls
+ */
+export const useApi = () => {
+  const isLoading = ref(false);
+  const error = ref(null);
+  const data = ref(null);
 
-  const request = async (url, options = {}) => {
-    loading.value = true
-    error.value = null
-    data.value = null
+  /**
+   * Executes an async API call with loading and error state management
+   * @param {Function} asyncFn - The async function to execute
+   * @returns {Promise<any>} - The result of the async function
+   */
+  const execute = async (asyncFn) => {
+    isLoading.value = true;
+    error.value = null;
+    data.value = null;
 
     try {
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers
-        },
-        ...options
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      data.value = await response.json()
-      return data.value
+      const result = await asyncFn();
+      data.value = result;
+      return result;
     } catch (err) {
-      error.value = err.message || 'An error occurred'
-      throw err
+      error.value = err.message || 'An unexpected error occurred';
+      throw err;
     } finally {
-      loading.value = false
+      isLoading.value = false;
     }
-  }
+  };
 
-  const get = (url, options = {}) => {
-    return request(url, { ...options, method: 'GET' })
-  }
-
-  const post = (url, body, options = {}) => {
-    return request(url, {
-      ...options,
-      method: 'POST',
-      body: JSON.stringify(body)
-    })
-  }
-
-  const put = (url, body, options = {}) => {
-    return request(url, {
-      ...options,
-      method: 'PUT',
-      body: JSON.stringify(body)
-    })
-  }
-
-  const del = (url, options = {}) => {
-    return request(url, { ...options, method: 'DELETE' })
-  }
+  /**
+   * Resets all state to initial values
+   */
+  const reset = () => {
+    isLoading.value = false;
+    error.value = null;
+    data.value = null;
+  };
 
   return {
-    loading,
+    isLoading,
     error,
     data,
-    get,
-    post,
-    put,
-    del
-  }
-}
+    execute,
+    reset,
+  };
+};
+
+export default useApi;

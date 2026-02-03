@@ -1,56 +1,66 @@
-const STORAGE_KEY = 'helloworld_form_data'
+/**
+ * FormPersistenceService
+ * Handles form data persistence using sessionStorage
+ */
 
-export const FormPersistenceService = {
-  /**
-   * Save form data to session storage
-   * @param {Object} data - The form data to save
-   */
-  saveFormData(data) {
-    try {
-      const serializedData = JSON.stringify(data)
-      sessionStorage.setItem(STORAGE_KEY, serializedData)
-      return true
-    } catch (error) {
-      console.error('Error saving form data:', error)
-      return false
-    }
-  },
+const STORAGE_KEY = 'helloWorldFormData';
 
-  /**
-   * Retrieve form data from session storage
-   * @returns {Object|null} The stored form data or null if not found
-   */
-  getFormData() {
-    try {
-      const serializedData = sessionStorage.getItem(STORAGE_KEY)
-      if (!serializedData) {
-        return null
-      }
-      return JSON.parse(serializedData)
-    } catch (error) {
-      console.error('Error retrieving form data:', error)
-      return null
-    }
-  },
-
-  /**
-   * Clear form data from session storage
-   */
-  clearFormData() {
-    try {
-      sessionStorage.removeItem(STORAGE_KEY)
-      return true
-    } catch (error) {
-      console.error('Error clearing form data:', error)
-      return false
-    }
-  },
-
-  /**
-   * Check if form data exists in storage
-   * @returns {boolean} True if form data exists
-   */
-  hasFormData() {
-    return sessionStorage.getItem(STORAGE_KEY) !== null
+/**
+ * Saves form data to sessionStorage
+ * @param {Object} data - The form data to save
+ */
+export const saveFormData = (data) => {
+  try {
+    const serialized = JSON.stringify(data);
+    sessionStorage.setItem(STORAGE_KEY, serialized);
+  } catch (error) {
+    console.error('Failed to save form data:', error);
   }
-}
+};
+
+/**
+ * Loads form data from sessionStorage
+ * @returns {Object|null} - The saved form data or null if not found
+ */
+export const loadFormData = () => {
+  try {
+    const serialized = sessionStorage.getItem(STORAGE_KEY);
+    if (serialized === null) {
+      return null;
+    }
+    return JSON.parse(serialized);
+  } catch (error) {
+    console.error('Failed to load form data:', error);
+    return null;
+  }
+};
+
+/**
+ * Clears form data from sessionStorage
+ */
+export const clearFormData = () => {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
+  } catch (error) {
+    console.error('Failed to clear form data:', error);
+  }
+};
+
+/**
+ * Checks if form data exists in sessionStorage
+ * @returns {boolean} - True if data exists
+ */
+export const hasFormData = () => {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY) !== null;
+  } catch (error) {
+    return false;
+  }
+};
+
+export default {
+  saveFormData,
+  loadFormData,
+  clearFormData,
+  hasFormData,
+};

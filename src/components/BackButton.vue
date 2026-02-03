@@ -1,30 +1,38 @@
-<template>
-  <goa-button type="secondary" leadingicon="arrow-back" @_click="handleBack">
-    {{ text }}
-  </goa-button>
-</template>
-
 <script setup>
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+
+/**
+ * BackButton Component
+ * Provides consistent back navigation using GOA button styling
+ */
+defineOptions({
+  name: 'BackButton',
+});
 
 const props = defineProps({
-  text: {
+  label: {
     type: String,
-    default: 'Back'
+    default: 'Back',
   },
   to: {
-    type: String,
-    default: '/'
-  }
-})
+    type: [String, Object],
+    default: '/',
+  },
+});
 
-const router = useRouter()
+const router = useRouter();
 
-const handleBack = () => {
-  router.push(props.to)
-}
+const handleClick = () => {
+  router.push(props.to);
+};
 </script>
 
-<style scoped>
-/* GOA button component is pre-styled - no custom styles needed */
-</style>
+<template>
+  <goa-button
+    type="tertiary"
+    leading-icon="arrow-back"
+    @_click="handleClick"
+  >
+    {{ label }}
+  </goa-button>
+</template>

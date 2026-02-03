@@ -1,78 +1,73 @@
-export const DataSanitizer = {
-  /**
-   * Sanitize a string input by removing potentially harmful characters
-   * @param {string} input - The string to sanitize
-   * @returns {string} The sanitized string
-   */
-  sanitizeString(input) {
-    if (typeof input !== 'string') {
-      return ''
-    }
+/**
+ * DataSanitizer Service
+ * Provides methods for sanitizing user input to prevent XSS attacks
+ */
 
-    return input
-      .trim()
-      // Remove HTML tags
-      .replace(/<[^>]*>/g, '')
-      // Escape HTML entities
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#x27;')
-      // Remove potential script injections
-      .replace(/javascript:/gi, '')
-      .replace(/on\w+=/gi, '')
-  },
-
-  /**
-   * Sanitize a date input
-   * @param {string} input - The date string to sanitize
-   * @returns {string} The sanitized date string in YYYY-MM-DD format
-   */
-  sanitizeDate(input) {
-    if (typeof input !== 'string') {
-      return ''
-    }
-
-    const trimmed = input.trim()
-    
-    // Validate date format (YYYY-MM-DD)
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/
-    if (!dateRegex.test(trimmed)) {
-      return ''
-    }
-
-    // Verify it's a valid date
-    const date = new Date(trimmed)
-    if (isNaN(date.getTime())) {
-      return ''
-    }
-
-    return trimmed
-  },
-
-  /**
-   * Sanitize an object by applying string sanitization to all string values
-   * @param {Object} obj - The object to sanitize
-   * @returns {Object} The sanitized object
-   */
-  sanitizeObject(obj) {
-    if (typeof obj !== 'object' || obj === null) {
-      return {}
-    }
-
-    const sanitized = {}
-    
-    for (const [key, value] of Object.entries(obj)) {
-      if (typeof value === 'string') {
-        sanitized[key] = this.sanitizeString(value)
-      } else if (typeof value === 'object' && value !== null) {
-        sanitized[key] = this.sanitizeObject(value)
-      } else {
-        sanitized[key] = value
-      }
-    }
-
-    return sanitized
+/**
+ * Escapes HTML special characters to prevent XSS
+ * @param {string} input - The raw user input
+ * @returns {string} - Sanitized string with escaped HTML entities
+ */
+export const escapeHtml = (input) => {
+  if (typeof input !== 'string') {
+    return '';
   }
-}
+
+  const htmlEntities = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;',
+  };
+
+  return input.replace(/[&<>"'`=/]/g, (char) => htmlEntities[char]);
+};
+
+/**
+ * Trims whitespace and normalizes spaces
+ * @param {string} input - The raw user input
+ * @returns {string} - Trimmed and normalized string
+ */
+export const normalizeWhitespace = (input) => {
+  if (typeof input !== 'string') {
+    return '';
+  }
+
+  return input.trim().replace(/\s+/g, ' ');
+};
+
+/**
+ * Sanitizes a name field - allows letters, spaces, hyphens, apostrophes
+ * @param {string} input - The raw name input
+ * @returns {string} - Sanitized name
+ */
+export const sanitizeName = (input) => {
+  if (typeof input !== 'string') {
+    return '';
+  }
+
+  const normalized = normalizeWhitespace(input);
+  // Remove any characters that aren't letters, spaces, hyphens, or apostrophes
+  return normalized.replace(/[^a-zA-ZÀ-ÿ\s'-]/g, '');
+};
+
+/**
+ * Full sanitization pipeline for form input
+ * @param {string} input - The raw user input
+ * @returns {string} - Fully sanitized string
+ */
+export const sanitizeInput = (input) => {
+  const normalized = normalizeWhitespace(input);
+  return escapeHtml(normalized);
+};
+
+export default {
+  escapeHtml,
+  normalizeWhitespace,
+  sanitizeName,
+  sanitizeInput,
+};

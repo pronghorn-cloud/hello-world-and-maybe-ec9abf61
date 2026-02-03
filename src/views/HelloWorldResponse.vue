@@ -1,115 +1,129 @@
-<template>
-  <goa-container type="non-interactive" accent="thin">
-    <h2 class="page-header">HelloWorld Response</h2>
-    
-    <ErrorMessageDisplay v-if="error" :message="error" />
-    
-    <template v-if="formData && !error">
-      <ResponseMessage :name="formData.name" :date="formattedDate" />
-      
-      <goa-container type="info" class="goa-mt-l" accent="thick">
-        <h3 class="data-summary-title">Submitted Data</h3>
-        <goa-details heading="View Details" open>
-          <dl class="data-list">
-            <div class="data-row">
-              <dt>Name:</dt>
-              <dd>{{ formData.name }}</dd>
-            </div>
-            <div class="data-row">
-              <dt>Date:</dt>
-              <dd>{{ formattedDate }}</dd>
-            </div>
-          </dl>
-        </goa-details>
-      </goa-container>
-    </template>
-    
-    <div class="actions goa-mt-xl goa-text-center">
-      <BackButton text="Back to Form" to="/" />
-    </div>
-  </goa-container>
-</template>
-
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import ResponseMessage from '../components/ResponseMessage.vue'
-import BackButton from '../components/BackButton.vue'
-import ErrorMessageDisplay from '../components/ErrorMessageDisplay.vue'
-import { FormPersistenceService } from '../services/FormPersistenceService'
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import BackButton from '@/components/BackButton.vue';
+import ResponseMessage from '@/components/ResponseMessage.vue';
+import { loadFormData, clearFormData } from '@/services/FormPersistenceService.js';
 
-const formData = ref(null)
-const error = ref('')
+/**
+ * HelloWorldResponse View
+ * Displays the personalized greeting based on submitted name
+ */
+defineOptions({
+  name: 'HelloWorldResponse',
+});
 
-const formattedDate = computed(() => {
-  if (!formData.value?.date) return ''
-  
-  const date = new Date(formData.value.date)
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-})
+const router = useRouter();
 
+const userName = ref('');
+
+/**
+ * Computed greeting message
+ */
+const greetingMessage = computed(() => {
+  if (!userName.value) {
+    return 'Hello, World!';
+  }
+  return `Hello, ${userName.value}!`;
+});
+
+/**
+ * Handles starting over - clears data and returns to form
+ */
+const handleStartOver = () => {
+  clearFormData();
+  router.push({ name: 'HelloWorldForm' });
+};
+
+// Load user data on mount
 onMounted(() => {
-  const savedData = FormPersistenceService.getFormData()
-  
-  if (!savedData) {
-    error.value = 'No form data found. Please submit the form first.'
-    return
+  const savedData = loadFormData();
+  if (savedData && savedData.name) {
+    userName.value = savedData.name;
+  } else {
+    // If no data, redirect back to form
+    router.push({ name: 'HelloWorldForm' });
   }
-  
-  if (!savedData.name || !savedData.date) {
-    error.value = 'Incomplete form data. Please fill out all required fields.'
-    return
-  }
-  
-  formData.value = savedData
-})
+});
 </script>
 
+<template>
+  <div class="hello-world-response">
+    <goa-page-block width="704px">
+      <BackButton
+        label="Back to form"
+        to="/"
+      />
+
+      <h1 class="page-title">Your Greeting</h1>
+      <p class="page-description">
+        Here is your personalized greeting message.
+      </p>
+
+      <ResponseMessage :message="greetingMessage" />
+
+      <div class="response-details">
+        <div class="detail-item">
+          <span class="detail-label">Name entered:</span>
+          <span class="detail-value">{{ userName }}</span>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <goa-button
+          type="primary"
+          @_click="handleStartOver"
+        >
+          Start Over
+        </goa-button>
+      </div>
+    </goa-page-block>
+  </div>
+</template>
+
 <style scoped>
-.page-header {
-  color: var(--goa-color-text-default);
-  margin-bottom: var(--goa-space-l);
-  text-align: center;
-  font-size: var(--goa-font-size-6);
+.hello-world-response {
+  padding: 1rem 0;
+}
+
+.page-title {
+  font-size: 2rem;
   font-weight: 700;
+  color: #0070c4;
+  margin: 1.5rem 0 0.5rem 0;
 }
 
-.data-summary-title {
-  color: var(--goa-color-text-default);
-  margin-bottom: var(--goa-space-m);
-  font-size: var(--goa-font-size-4);
+.page-description {
+  font-size: 1.125rem;
+  color: #666666;
+  margin: 0 0 2rem 0;
 }
 
-.data-list {
-  margin: 0;
+.response-details {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  border-radius: 4px;
 }
 
-.data-row {
+.detail-item {
   display: flex;
-  gap: var(--goa-space-m);
-  padding: var(--goa-space-s) 0;
-  border-bottom: 1px solid var(--goa-color-greyscale-200);
+  gap: 0.5rem;
+  align-items: baseline;
 }
 
-.data-row:last-child {
-  border-bottom: none;
-}
-
-.data-row dt {
+.detail-label {
   font-weight: 600;
-  color: var(--goa-color-text-secondary);
-  min-width: 80px;
+  color: #333333;
 }
 
-.data-row dd {
-  color: var(--goa-color-text-default);
-  margin: 0;
+.detail-value {
+  color: #666666;
 }
 
-.actions {
-  margin-top: var(--goa-space-xl);
+.action-bar {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 </style>

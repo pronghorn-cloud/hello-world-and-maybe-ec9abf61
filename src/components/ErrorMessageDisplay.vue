@@ -1,19 +1,55 @@
+<script setup>
+/**
+ * ErrorMessageDisplay Component
+ * Displays validation errors or API errors using GOA callout
+ */
+defineOptions({
+  name: 'ErrorMessageDisplay',
+});
+
+defineProps({
+  errors: {
+    type: Array,
+    default: () => [],
+  },
+  title: {
+    type: String,
+    default: 'Please correct the following errors',
+  },
+});
+</script>
+
 <template>
-  <goa-callout v-if="message" type="emergency" heading="Error" role="alert">
-    {{ message }}
+  <goa-callout
+    v-if="errors.length > 0"
+    type="emergency"
+    :heading="title"
+    role="alert"
+    aria-live="polite"
+  >
+    <ul class="error-list">
+      <li
+        v-for="(error, index) in errors"
+        :key="index"
+        class="error-item"
+      >
+        {{ error }}
+      </li>
+    </ul>
   </goa-callout>
 </template>
 
-<script setup>
-defineProps({
-  message: {
-    type: String,
-    default: ''
-  }
-})
-</script>
-
 <style scoped>
-/* GOA callout component is pre-styled - no custom styles needed */
-</style>
+.error-list {
+  margin: 0;
+  padding-left: 1.25rem;
+}
 
+.error-item {
+  margin-bottom: 0.25rem;
+}
+
+.error-item:last-child {
+  margin-bottom: 0;
+}
+</style>

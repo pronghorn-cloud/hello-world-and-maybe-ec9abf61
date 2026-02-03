@@ -1,22 +1,38 @@
+<script setup>
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+
+/**
+ * App Component
+ * Root application component with header, main content, and footer
+ */
+defineOptions({
+  name: 'App',
+});
+</script>
+
 <template>
-  <div class="goa-flex-column">
+  <div class="app-container">
     <AppHeader />
-    <main class="goa-flex-grow">
-      <div class="goa-layout-container">
-        <router-view />
-      </div>
+    <main class="main-content">
+      <router-view />
     </main>
     <AppFooter />
   </div>
 </template>
 
-<script setup>
-import AppHeader from './components/AppHeader.vue'
-import AppFooter from './components/AppFooter.vue'
-</script>
-
 <style scoped>
-/* Layout handled by GOA utility classes - no additional styles needed */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
 </style>
-
-

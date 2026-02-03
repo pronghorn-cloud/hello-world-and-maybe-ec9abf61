@@ -1,14 +1,24 @@
-<template>
-  <goa-app-header heading="HelloWorld App" url="/">
-  </goa-app-header>
-</template>
-
 <script setup>
-// AppHeader component - displays the GOA application header
-// Uses goa-app-header web component from GOA Design System
+/**
+ * AppHeader Component
+ * Renders the GOA microsite header with proper branding
+ */
+defineOptions({
+  name: 'AppHeader',
+});
 </script>
 
-<style scoped>
-/* GOA components are pre-styled - no custom styles needed */
-</style>
+<template>
+  <header>
+    <goa-microsite-header
+      type="alpha"
+      version="Hello World App"
+    />
+  </header>
+</template>
 
+<style scoped>
+header {
+  width: 100%;
+}
+</style>
