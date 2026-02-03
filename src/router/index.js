@@ -1,36 +1,23 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HelloWorldForm from '@/views/HelloWorldForm.vue';
-import HelloWorldResponse from '@/views/HelloWorldResponse.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import EntryForm from '../views/EntryForm.vue'
+import ResponseForm from '../views/ResponseForm.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'HelloWorldForm',
-    component: HelloWorldForm,
-    meta: {
-      title: 'Hello World Form',
-    },
+    name: 'EntryForm',
+    component: EntryForm
   },
   {
     path: '/response',
-    name: 'HelloWorldResponse',
-    component: HelloWorldResponse,
-    meta: {
-      title: 'Hello World Response',
-    },
-  },
-];
+    name: 'ResponseForm',
+    component: ResponseForm
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
-router.beforeEach((to) => {
-  const baseTitle = 'Government of Alberta';
-  document.title = to.meta.title
-    ? `${to.meta.title} - ${baseTitle}`
-    : baseTitle;
-});
-
-export default router;
+export default router

@@ -1,16 +1,3 @@
-<script setup>
-import AppHeader from '@/components/AppHeader.vue';
-import AppFooter from '@/components/AppFooter.vue';
-
-/**
- * App Component
- * Root application component with header, main content, and footer
- */
-defineOptions({
-  name: 'App',
-});
-</script>
-
 <template>
   <div class="app-container">
     <AppHeader />
@@ -21,6 +8,11 @@ defineOptions({
   </div>
 </template>
 
+<script setup>
+import AppHeader from './components/AppHeader.vue'
+import AppFooter from './components/AppFooter.vue'
+</script>
+
 <style scoped>
 .app-container {
   display: flex;
@@ -30,9 +22,15 @@ defineOptions({
 
 .main-content {
   flex: 1;
-  width: 100%;
+  padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    padding: 3rem 2rem;
+  }
 }
 </style>

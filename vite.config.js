@@ -1,27 +1,14 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith('goa-'),
-        },
-      },
-    }),
-  ],
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
+  plugins: [vue()],
   server: {
-    port: 5173,
-    strictPort: false,
+    port: 3000,
+    open: true
   },
   build: {
-    target: 'esnext',
     outDir: 'dist',
-  },
-});
+    sourcemap: true
+  }
+})
