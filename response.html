@@ -3,44 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World App - Greeting</title>
+    <title>Your Greeting - Hello World App</title>
     <style>
-        /* GOA Design System - Core Variables */
+        /* ADS-004: Design Tokens - Single source of truth for visual values */
         :root {
+            /* Primary Colors */
             --goa-color-primary: #0070c4;
             --goa-color-primary-dark: #004f84;
+            
+            /* Neutral Colors */
             --goa-color-secondary: #333333;
             --goa-color-background: #f1f1f1;
             --goa-color-white: #ffffff;
+            --goa-color-border: #666666;
+            
+            /* Semantic Colors */
+            --goa-color-error: #d93e21;
             --goa-color-success: #2e8540;
             --goa-color-success-light: #e8f5e9;
-            --goa-color-border: #666666;
             --goa-color-focus: #ffc107;
+            
+            /* Spacing Tokens */
+            --goa-spacing-xs: 0.25rem;  /* 4px */
+            --goa-spacing-sm: 0.5rem;   /* 8px */
+            --goa-spacing-md: 1rem;     /* 16px */
+            --goa-spacing-lg: 1.5rem;   /* 24px */
+            --goa-spacing-xl: 2rem;     /* 32px */
+            
+            /* Typography Tokens */
             --goa-font-family: 'Acumin Pro Semi Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            --goa-spacing-xs: 0.25rem;
-            --goa-spacing-sm: 0.5rem;
-            --goa-spacing-md: 1rem;
-            --goa-spacing-lg: 1.5rem;
-            --goa-spacing-xl: 2rem;
+            --goa-font-size-base: 18px;
+            --goa-line-height: 1.6;
+            
+            /* Border Tokens */
             --goa-border-radius: 4px;
+            --goa-border-width: 2px;
+            --goa-border-width-thick: 3px;
         }
 
-        /* Reset and Base Styles */
+        /* ADS-010: Reset */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
+        /* ADS-010: Base body styles */
         body {
             margin: 0;
             padding: 0;
             font-family: var(--goa-font-family);
-            font-size: 18px;
-            line-height: 1.6;
+            font-size: var(--goa-font-size-base);
+            line-height: var(--goa-line-height);
             color: var(--goa-color-secondary);
             background-color: var(--goa-color-background);
         }
 
-        /* Skip Link for Accessibility */
+        /* ADS-001: Skip Link for Accessibility */
         .skip-link {
             position: absolute;
             top: -40px;
@@ -56,7 +73,7 @@
             top: 0;
         }
 
-        /* Header */
+        /* ADS-005: Header Component */
         .goa-header {
             background-color: var(--goa-color-primary);
             color: var(--goa-color-white);
@@ -69,7 +86,7 @@
             font-weight: 600;
         }
 
-        /* Main Content */
+        /* ADS-010: Centered Container Layout */
         main {
             max-width: 600px;
             margin: var(--goa-spacing-xl) auto;
@@ -79,24 +96,28 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        /* ADS-006: Heading styles */
         h2 {
             margin-top: 0;
+            margin-bottom: var(--goa-spacing-lg);
             color: var(--goa-color-secondary);
             font-size: 1.75rem;
         }
 
-        /* Greeting Message Display Component */
+        /* ADS-005: Greeting Card/Callout Component */
         .goa-greeting-card {
             background-color: var(--goa-color-success-light);
-            border: 2px solid var(--goa-color-success);
+            border: var(--goa-border-width) solid var(--goa-color-success);
             border-radius: var(--goa-border-radius);
             padding: var(--goa-spacing-lg);
             margin-bottom: var(--goa-spacing-xl);
+            text-align: center;
         }
 
         .goa-greeting-card__icon {
-            font-size: 2rem;
-            margin-bottom: var(--goa-spacing-sm);
+            font-size: 3rem;
+            display: block;
+            margin-bottom: var(--goa-spacing-md);
         }
 
         .goa-greeting-card__message {
@@ -107,50 +128,46 @@
         }
 
         .goa-greeting-card__details {
+            font-size: 1rem;
             color: var(--goa-color-secondary);
             margin: 0;
         }
 
-        .goa-greeting-card__name {
-            font-weight: 600;
-        }
-
-        /* Summary Section */
+        /* ADS-005: Summary List Component */
         .goa-summary {
-            background-color: var(--goa-color-background);
-            border-radius: var(--goa-border-radius);
-            padding: var(--goa-spacing-md);
             margin-bottom: var(--goa-spacing-xl);
         }
 
         .goa-summary__title {
             font-weight: 600;
-            margin-bottom: var(--goa-spacing-sm);
+            margin: 0 0 var(--goa-spacing-sm) 0;
             color: var(--goa-color-secondary);
         }
 
         .goa-summary__list {
             list-style: none;
-            padding: 0;
             margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--goa-color-border);
         }
 
         .goa-summary__item {
             display: flex;
             justify-content: space-between;
-            padding: var(--goa-spacing-xs) 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .goa-summary__item:last-child {
-            border-bottom: none;
+            padding: var(--goa-spacing-sm) 0;
+            border-bottom: 1px solid var(--goa-color-border);
         }
 
         .goa-summary__label {
             font-weight: 600;
+            color: var(--goa-color-secondary);
         }
 
-        /* Button Styles */
+        .goa-summary__value {
+            color: var(--goa-color-secondary);
+        }
+
+        /* ADS-005: Button Component */
         .goa-button {
             display: inline-block;
             padding: var(--goa-spacing-sm) var(--goa-spacing-xl);
@@ -158,13 +175,13 @@
             font-weight: 600;
             font-family: inherit;
             text-decoration: none;
-            border: 2px solid transparent;
+            border: var(--goa-border-width) solid transparent;
             border-radius: var(--goa-border-radius);
             cursor: pointer;
             transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Back Navigation Button Component */
+        /* ADS-005: Secondary Button */
         .goa-button--secondary {
             background-color: var(--goa-color-white);
             color: var(--goa-color-primary);
@@ -181,16 +198,7 @@
             box-shadow: 0 0 0 3px var(--goa-color-focus);
         }
 
-        .goa-button--secondary:active {
-            background-color: var(--goa-color-primary-dark);
-            border-color: var(--goa-color-primary-dark);
-        }
-
-        .goa-button__icon {
-            margin-right: var(--goa-spacing-xs);
-        }
-
-        /* Footer */
+        /* ADS-005: Footer Component */
         .goa-footer {
             background-color: var(--goa-color-secondary);
             color: var(--goa-color-white);
@@ -204,19 +212,7 @@
             font-size: 0.875rem;
         }
 
-        /* No Data State */
-        .goa-no-data {
-            text-align: center;
-            padding: var(--goa-spacing-xl);
-            color: var(--goa-color-secondary);
-        }
-
-        .goa-no-data__icon {
-            font-size: 3rem;
-            margin-bottom: var(--goa-spacing-md);
-        }
-
-        /* Responsive Design */
+        /* ADS-010: Responsive Design */
         @media (max-width: 768px) {
             main {
                 margin: var(--goa-spacing-md);
@@ -227,80 +223,95 @@
                 padding: var(--goa-spacing-md);
             }
 
-            .goa-greeting-card__message {
-                font-size: 1.25rem;
+            .goa-summary__item {
+                flex-direction: column;
+                gap: var(--goa-spacing-xs);
             }
         }
 
-        /* High Contrast Mode Support */
+        /* ADS-001: High Contrast Mode Support */
         @media (prefers-contrast: high) {
+            .goa-greeting-card,
             .goa-button {
-                border-width: 3px;
-            }
-
-            .goa-greeting-card {
-                border-width: 3px;
+                border-width: var(--goa-border-width-thick);
             }
         }
 
-        /* Reduced Motion Support */
+        /* ADS-001: Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
             * {
                 transition: none !important;
+                animation: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Skip Link for Keyboard Navigation -->
+    <!-- ADS-001: Skip Link for Keyboard Navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Header -->
+    <!-- ADS-005/ADS-006: Header with role="banner" -->
     <header class="goa-header" role="banner">
-        <h1>Hello World Response</h1>
+        <h1>Hello World App</h1>
     </header>
 
-    <!-- Main Content -->
+    <!-- ADS-006: Main Content with role="main" and id for skip link -->
     <main id="main-content" role="main">
-        <h2>Your Greeting</h2>
+        <h2>Your greeting</h2>
 
-        <!-- Greeting Message Display Component -->
-        <div id="greeting-container">
-            <!-- Content populated by JavaScript -->
+        <!-- ADS-005: Greeting Card Component with ARIA live region -->
+        <div class="goa-greeting-card" role="status" aria-live="polite">
+            <div class="goa-greeting-card__icon" aria-hidden="true">👋</div>
+            <p class="goa-greeting-card__message" id="greeting-message">Hello!</p>
+            <p class="goa-greeting-card__details" id="greeting-details">Welcome to the Hello World App</p>
         </div>
 
-        <!-- Back Navigation Button Component -->
-        <nav aria-label="Page navigation">
-            <a href="index.html" class="goa-button goa-button--secondary">
-                <span class="goa-button__icon" aria-hidden="true">←</span>
-                Back to Form
-            </a>
-        </nav>
+        <!-- ADS-005: Summary List Component -->
+        <div class="goa-summary">
+            <p class="goa-summary__title">Submission details</p>
+            <ul class="goa-summary__list">
+                <li class="goa-summary__item">
+                    <span class="goa-summary__label">Name:</span>
+                    <span class="goa-summary__value" id="summary-name">—</span>
+                </li>
+                <li class="goa-summary__item">
+                    <span class="goa-summary__label">Date:</span>
+                    <span class="goa-summary__value" id="summary-date">—</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ADS-005: Secondary Button as Link -->
+        <a href="index.html" class="goa-button goa-button--secondary">
+            <span aria-hidden="true">←</span>
+            Back to form
+        </a>
     </main>
 
-    <!-- Footer -->
+    <!-- ADS-005/ADS-006: Footer with role="contentinfo" -->
     <footer class="goa-footer" role="contentinfo">
         <p>&copy; 2024 Hello World App. Built with GOA Design System standards.</p>
     </footer>
 
-    <!-- Greeting Display Script -->
+    <!-- ADS-008: Interactivity Script -->
     <script>
         (function() {
             'use strict';
 
-            // Parse URL parameters
-            function getUrlParams() {
-                var params = {};
-                var searchParams = new URLSearchParams(window.location.search);
-                params.name = searchParams.get('name');
-                params.date = searchParams.get('date');
-                return params;
+            // ADS-008: XSS Prevention - Escape HTML
+            function escapeHtml(text) {
+                if (!text) return '';
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
             }
 
-            // Format date for display
+            // ADS-008: Format date for display
             function formatDate(dateString) {
-                if (!dateString) return '';
+                if (!dateString) return '—';
                 var date = new Date(dateString + 'T00:00:00');
+                if (isNaN(date.getTime())) return dateString;
+                
                 var options = { 
                     weekday: 'long', 
                     year: 'numeric', 
@@ -310,61 +321,38 @@
                 return date.toLocaleDateString('en-CA', options);
             }
 
-            // Escape HTML to prevent XSS
-            function escapeHtml(text) {
-                if (!text) return '';
-                var div = document.createElement('div');
-                div.textContent = text;
-                return div.innerHTML;
+            // ADS-008: URL Parameter Handling
+            function getUrlParams() {
+                var params = {};
+                var searchParams = new URLSearchParams(window.location.search);
+                params.name = searchParams.get('name');
+                params.date = searchParams.get('date');
+                return params;
             }
 
-            // Render greeting message
-            function renderGreeting(params) {
-                var container = document.getElementById('greeting-container');
-                
-                if (!params.name || !params.date) {
-                    // No data state
-                    container.innerHTML = 
-                        '<div class="goa-no-data" role="alert">' +
-                            '<div class="goa-no-data__icon" aria-hidden="true">📝</div>' +
-                            '<p>No greeting information found.</p>' +
-                            '<p>Please go back and fill out the form.</p>' +
-                        '</div>';
-                    return;
-                }
+            // Cache DOM elements
+            var greetingMessage = document.getElementById('greeting-message');
+            var greetingDetails = document.getElementById('greeting-details');
+            var summaryName = document.getElementById('summary-name');
+            var summaryDate = document.getElementById('summary-date');
 
-                var safeName = escapeHtml(params.name);
-                var formattedDate = formatDate(params.date);
-
-                container.innerHTML = 
-                    '<div class="goa-greeting-card" role="status" aria-live="polite">' +
-                        '<div class="goa-greeting-card__icon" aria-hidden="true">👋</div>' +
-                        '<p class="goa-greeting-card__message">Hello, <span class="goa-greeting-card__name">' + safeName + '</span>!</p>' +
-                        '<p class="goa-greeting-card__details">Welcome to our Hello World App.</p>' +
-                    '</div>' +
-                    '<div class="goa-summary">' +
-                        '<p class="goa-summary__title">Submission Details</p>' +
-                        '<ul class="goa-summary__list">' +
-                            '<li class="goa-summary__item">' +
-                                '<span class="goa-summary__label">Name:</span>' +
-                                '<span class="goa-summary__value">' + safeName + '</span>' +
-                            '</li>' +
-                            '<li class="goa-summary__item">' +
-                                '<span class="goa-summary__label">Selected Date:</span>' +
-                                '<span class="goa-summary__value">' + formattedDate + '</span>' +
-                            '</li>' +
-                        '</ul>' +
-                    '</div>';
-            }
-
-            // Initialize on page load
+            // Get and display parameters
             var params = getUrlParams();
-            renderGreeting(params);
+            var name = params.name ? params.name.trim() : '';
+            var date = params.date || '';
 
-            // Update page title with name if available
-            if (params.name) {
-                document.title = 'Hello, ' + params.name + ' - Hello World App';
+            // Update greeting card
+            if (name) {
+                greetingMessage.textContent = 'Hello, ' + escapeHtml(name) + '!';
+                greetingDetails.textContent = 'Thank you for your submission on ' + formatDate(date) + '.';
+            } else {
+                greetingMessage.textContent = 'Hello!';
+                greetingDetails.textContent = 'No name was provided. Please go back and fill out the form.';
             }
+
+            // Update summary list
+            summaryName.textContent = name ? escapeHtml(name) : '—';
+            summaryDate.textContent = date ? formatDate(date) : '—';
         })();
     </script>
 </body>

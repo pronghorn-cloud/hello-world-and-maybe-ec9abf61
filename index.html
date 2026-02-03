@@ -5,41 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World App - Form</title>
     <style>
-        /* GOA Design System - Core Variables */
+        /* ADS-004: Design Tokens - Single source of truth for visual values */
         :root {
+            /* Primary Colors */
             --goa-color-primary: #0070c4;
             --goa-color-primary-dark: #004f84;
+            
+            /* Neutral Colors */
             --goa-color-secondary: #333333;
             --goa-color-background: #f1f1f1;
             --goa-color-white: #ffffff;
-            --goa-color-error: #d93e21;
             --goa-color-border: #666666;
+            
+            /* Semantic Colors */
+            --goa-color-error: #d93e21;
+            --goa-color-success: #2e8540;
+            --goa-color-success-light: #e8f5e9;
             --goa-color-focus: #ffc107;
+            
+            /* Spacing Tokens */
+            --goa-spacing-xs: 0.25rem;  /* 4px */
+            --goa-spacing-sm: 0.5rem;   /* 8px */
+            --goa-spacing-md: 1rem;     /* 16px */
+            --goa-spacing-lg: 1.5rem;   /* 24px */
+            --goa-spacing-xl: 2rem;     /* 32px */
+            
+            /* Typography Tokens */
             --goa-font-family: 'Acumin Pro Semi Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            --goa-spacing-xs: 0.25rem;
-            --goa-spacing-sm: 0.5rem;
-            --goa-spacing-md: 1rem;
-            --goa-spacing-lg: 1.5rem;
-            --goa-spacing-xl: 2rem;
+            --goa-font-size-base: 18px;
+            --goa-line-height: 1.6;
+            
+            /* Border Tokens */
             --goa-border-radius: 4px;
+            --goa-border-width: 2px;
+            --goa-border-width-thick: 3px;
         }
 
-        /* Reset and Base Styles */
+        /* ADS-010: Reset */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
+        /* ADS-010: Base body styles */
         body {
             margin: 0;
             padding: 0;
             font-family: var(--goa-font-family);
-            font-size: 18px;
-            line-height: 1.6;
+            font-size: var(--goa-font-size-base);
+            line-height: var(--goa-line-height);
             color: var(--goa-color-secondary);
             background-color: var(--goa-color-background);
         }
 
-        /* Skip Link for Accessibility */
+        /* ADS-001: Skip Link for Accessibility */
         .skip-link {
             position: absolute;
             top: -40px;
@@ -55,7 +73,7 @@
             top: 0;
         }
 
-        /* Header */
+        /* ADS-005: Header Component */
         .goa-header {
             background-color: var(--goa-color-primary);
             color: var(--goa-color-white);
@@ -68,7 +86,7 @@
             font-weight: 600;
         }
 
-        /* Main Content */
+        /* ADS-010: Centered Container Layout */
         main {
             max-width: 600px;
             margin: var(--goa-spacing-xl) auto;
@@ -78,17 +96,19 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        /* ADS-006: Heading styles */
         h2 {
             margin-top: 0;
             color: var(--goa-color-secondary);
             font-size: 1.75rem;
         }
 
-        /* Form Styles */
+        /* ADS-005: Form Group Component */
         .goa-form-group {
             margin-bottom: var(--goa-spacing-lg);
         }
 
+        /* ADS-005: Label Component */
         .goa-label {
             display: block;
             margin-bottom: var(--goa-spacing-xs);
@@ -101,20 +121,21 @@
             margin-left: var(--goa-spacing-xs);
         }
 
+        /* ADS-005: Hint Text Component */
         .goa-hint {
             display: block;
             margin-bottom: var(--goa-spacing-xs);
             font-size: 0.875rem;
-            color: #666666;
+            color: var(--goa-color-border);
         }
 
-        /* Input Field Component */
+        /* ADS-005: Input Field Component */
         .goa-input {
             width: 100%;
             padding: var(--goa-spacing-sm) var(--goa-spacing-md);
             font-size: 1rem;
             font-family: inherit;
-            border: 2px solid var(--goa-color-border);
+            border: var(--goa-border-width) solid var(--goa-color-border);
             border-radius: var(--goa-border-radius);
             background-color: var(--goa-color-white);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -130,18 +151,14 @@
             box-shadow: 0 0 0 3px var(--goa-color-focus);
         }
 
-        .goa-input:invalid:not(:placeholder-shown) {
-            border-color: var(--goa-color-error);
-        }
-
-        /* Date Picker Control */
+        /* ADS-005: Date Input Component */
         .goa-date-input {
             width: 100%;
             max-width: 200px;
             padding: var(--goa-spacing-sm) var(--goa-spacing-md);
             font-size: 1rem;
             font-family: inherit;
-            border: 2px solid var(--goa-color-border);
+            border: var(--goa-border-width) solid var(--goa-color-border);
             border-radius: var(--goa-border-radius);
             background-color: var(--goa-color-white);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -157,7 +174,7 @@
             box-shadow: 0 0 0 3px var(--goa-color-focus);
         }
 
-        /* Submit Button Component */
+        /* ADS-005: Button Component */
         .goa-button {
             display: inline-block;
             padding: var(--goa-spacing-sm) var(--goa-spacing-xl);
@@ -165,12 +182,13 @@
             font-weight: 600;
             font-family: inherit;
             text-decoration: none;
-            border: 2px solid transparent;
+            border: var(--goa-border-width) solid transparent;
             border-radius: var(--goa-border-radius);
             cursor: pointer;
             transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
 
+        /* ADS-005: Primary Button */
         .goa-button--primary {
             background-color: var(--goa-color-primary);
             color: var(--goa-color-white);
@@ -191,7 +209,7 @@
             background-color: var(--goa-color-primary-dark);
         }
 
-        /* Error Message */
+        /* ADS-005: Error Message Component */
         .goa-error-message {
             display: none;
             color: var(--goa-color-error);
@@ -203,7 +221,7 @@
             content: "⚠ ";
         }
 
-        /* Footer */
+        /* ADS-005: Footer Component */
         .goa-footer {
             background-color: var(--goa-color-secondary);
             color: var(--goa-color-white);
@@ -217,7 +235,7 @@
             font-size: 0.875rem;
         }
 
-        /* Responsive Design */
+        /* ADS-010: Responsive Design */
         @media (max-width: 768px) {
             main {
                 margin: var(--goa-spacing-md);
@@ -229,53 +247,184 @@
             }
         }
 
-        /* High Contrast Mode Support */
+        /* ADS-001: High Contrast Mode Support */
         @media (prefers-contrast: high) {
             .goa-input,
-            .goa-date-input {
-                border-width: 3px;
-            }
-
+            .goa-date-input,
             .goa-button {
-                border-width: 3px;
+                border-width: var(--goa-border-width-thick);
             }
         }
 
-        /* Reduced Motion Support */
+        /* ADS-001: Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
             * {
                 transition: none !important;
+                animation: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Skip Link for Keyboard Navigation -->
+    <!-- ADS-001: Skip Link for Keyboard Navigation -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Header -->
+    <!-- ADS-005/ADS-006: Header with role="banner" -->
     <header class="goa-header" role="banner">
         <h1>Hello World App</h1>
     </header>
 
-    <!-- Main Content -->
+    <!-- ADS-006: Main Content with role="main" and id for skip link -->
     <main id="main-content" role="main">
         <h2>Welcome</h2>
         <p>Please enter your information below to receive a personalized greeting.</p>
 
         <form id="greeting-form" action="response.html" method="GET" novalidate>
-            <!-- Name Input Field Component -->
+            <!-- ADS-005: Name Input Field Component -->
             <div class="goa-form-group">
                 <label for="name-input" class="goa-label">
                     Your Name
                     <span class="required" aria-hidden="true">*</span>
                 </label>
-                <span id="name-hint" class="goa-hint">Enter your name</span>
+                <span id="name-hint" class="goa-hint">Enter your full name</span>
                 <input 
                     type="text" 
                     id="name-input" 
                     name="name" 
                     class="goa-input" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="name-hint name-error"
+                    aria-invalid="false"
+                    placeholder="e.g., John Smith"
+                    autocomplete="name"
+                    maxlength="100"
+                >
+                <span class="goa-error-message" id="name-error" role="alert" aria-live="polite">
+                    Please enter your name
+                </span>
+            </div>
+
+            <!-- ADS-005: Date Picker Control Component -->
+            <div class="goa-form-group">
+                <label for="date-input" class="goa-label">
+                    Select a Date
+                    <span class="required" aria-hidden="true">*</span>
+                </label>
+                <span id="date-hint" class="goa-hint">Choose a date for your greeting (YYYY-MM-DD)</span>
+                <input 
+                    type="date" 
+                    id="date-input" 
+                    name="date" 
+                    class="goa-date-input" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="date-hint date-error"
+                    aria-invalid="false"
+                >
+                <span class="goa-error-message" id="date-error" role="alert" aria-live="polite">
+                    Please select a date
+                </span>
+            </div>
+
+            <!-- ADS-005: Submit Button Component -->
+            <div class="goa-form-group">
+                <button type="submit" class="goa-button goa-button--primary">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- ADS-005/ADS-006: Footer with role="contentinfo" -->
+    <footer class="goa-footer" role="contentinfo">
+        <p>&copy; 2024 Hello World App. Built with GOA Design System standards.</p>
+    </footer>
+
+    <!-- ADS-008: Form Validation Script -->
+    <script>
+        (function() {
+            'use strict';
+
+            // Cache DOM elements
+            var form = document.getElementById('greeting-form');
+            var nameInput = document.getElementById('name-input');
+            var dateInput = document.getElementById('date-input');
+            var nameError = document.getElementById('name-error');
+            var dateError = document.getElementById('date-error');
+
+            // ADS-008: Show error message
+            function showError(inputEl, errorEl, message) {
+                inputEl.setAttribute('aria-invalid', 'true');
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                inputEl.style.borderColor = 'var(--goa-color-error)';
+            }
+
+            // ADS-008: Hide error message
+            function hideError(inputEl, errorEl) {
+                inputEl.setAttribute('aria-invalid', 'false');
+                errorEl.style.display = 'none';
+                inputEl.style.borderColor = '';
+            }
+
+            // ADS-008: Validate name field
+            function validateName() {
+                if (!nameInput.value.trim()) {
+                    showError(nameInput, nameError, 'Please enter your name');
+                    return false;
+                }
+                hideError(nameInput, nameError);
+                return true;
+            }
+
+            // ADS-008: Validate date field
+            function validateDate() {
+                if (!dateInput.value) {
+                    showError(dateInput, dateError, 'Please select a date');
+                    return false;
+                }
+                hideError(dateInput, dateError);
+                return true;
+            }
+
+            // Real-time validation on blur
+            nameInput.addEventListener('blur', validateName);
+            dateInput.addEventListener('blur', validateDate);
+
+            // Clear error on input
+            nameInput.addEventListener('input', function() {
+                if (nameInput.value.trim()) {
+                    hideError(nameInput, nameError);
+                }
+            });
+
+            dateInput.addEventListener('change', function() {
+                if (dateInput.value) {
+                    hideError(dateInput, dateError);
+                }
+            });
+
+            // ADS-008: Form submission validation
+            form.addEventListener('submit', function(event) {
+                var isNameValid = validateName();
+                var isDateValid = validateDate();
+
+                if (!isNameValid || !isDateValid) {
+                    event.preventDefault();
+                    
+                    // Focus first invalid field
+                    if (!isNameValid) {
+                        nameInput.focus();
+                    } else if (!isDateValid) {
+                        dateInput.focus();
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
                     required 
                     aria-required="true"
                     aria-describedby="name-hint"
