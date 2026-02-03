@@ -23,16 +23,13 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import ResponseMessage from '../components/ResponseMessage.vue'
 import BackButton from '../components/BackButton.vue'
 import ErrorMessageDisplay from '../components/ErrorMessageDisplay.vue'
 import { FormPersistenceService } from '../services/FormPersistenceService'
 
-const router = useRouter()
 const formData = ref(null)
 const error = ref('')
 

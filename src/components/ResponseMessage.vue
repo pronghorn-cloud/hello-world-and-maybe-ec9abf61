@@ -19,7 +19,7 @@ const props = defineProps({
 })
 
 const message = computed(() => {
-  return `Hello ${props.name} the date ${props.date}`
+  return `Hello ${props.name}! Today's date is ${props.date}.`
 })
 </script>
 
