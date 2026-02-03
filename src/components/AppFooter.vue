@@ -1,7 +1,9 @@
 <template>
-  <footer class="app-footer">
-    <p>&copy; {{ currentYear }} HelloWorld App. All rights reserved.</p>
-  </footer>
+  <goa-app-footer>
+    <template #secondaryNavigation>
+      <span class="footer-text">&copy; {{ currentYear }} HelloWorld App. All rights reserved.</span>
+    </template>
+  </goa-app-footer>
 </template>
 
 <script setup>
@@ -11,16 +13,11 @@ const currentYear = computed(() => new Date().getFullYear())
 </script>
 
 <style scoped>
-.app-footer {
-  background-color: #333;
-  color: #aaa;
-  text-align: center;
-  padding: 1rem 2rem;
-  margin-top: auto;
+.footer-text {
+  color: var(--goa-color-greyscale-white);
+  font-size: var(--goa-font-size-1);
 }
+</style>
 
-.app-footer p {
-  margin: 0;
-  font-size: 0.875rem;
 }
 </style>

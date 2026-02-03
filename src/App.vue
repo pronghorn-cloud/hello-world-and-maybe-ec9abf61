@@ -1,8 +1,10 @@
 <template>
-  <div id="app" class="app-container">
+  <div class="goa-flex-column">
     <AppHeader />
-    <main class="main-content">
-      <router-view />
+    <main class="goa-flex-grow">
+      <div class="goa-layout-container">
+        <router-view />
+      </div>
     </main>
     <AppFooter />
   </div>
@@ -14,17 +16,8 @@ import AppFooter from './components/AppFooter.vue'
 </script>
 
 <style scoped>
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+/* Layout handled by GOA utility classes - no additional styles needed */
+</style>
 
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
 }
 </style>

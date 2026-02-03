@@ -1,38 +1,49 @@
 <template>
-  <div class="form-container">
+  <goa-container type="non-interactive" accent="thin">
     <h2 class="form-title">HelloWorld Entry Form</h2>
     
     <form @submit.prevent="handleSubmit" class="hello-form">
-      <div class="form-group">
-        <label for="name">Name <span class="required">*</span></label>
-        <input
+      <goa-form-item
+        label="Name"
+        requirement="required"
+        :error="errors.name || ''"
+      >
+        <goa-input
           id="name"
-          v-model="formData.name"
-          type="text"
-          placeholder="Enter your name"
-          :class="{ error: errors.name }"
+          name="name"
+          :value="formData.name"
+          @_change="handleNameChange"
           @blur="validateField('name')"
-        />
-        <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
-      </div>
+          width="100%"
+        >
+        </goa-input>
+      </goa-form-item>
 
-      <div class="form-group">
-        <label for="date">Date <span class="required">*</span></label>
-        <input
+      <goa-form-item
+        label="Date"
+        requirement="required"
+        :error="errors.date || ''"
+        class="goa-mt-l"
+      >
+        <goa-input
           id="date"
-          v-model="formData.date"
+          name="date"
           type="date"
-          :class="{ error: errors.date }"
+          :value="formData.date"
+          @_change="handleDateChange"
           @blur="validateField('date')"
-        />
-        <span v-if="errors.date" class="error-message">{{ errors.date }}</span>
-      </div>
+          width="100%"
+        >
+        </goa-input>
+      </goa-form-item>
 
-      <button type="submit" class="btn btn-primary" :disabled="!isFormValid">
-        Submit
-      </button>
+      <div class="form-actions goa-mt-xl">
+        <goa-button type="primary" @_click="handleSubmit" :disabled="!isFormValid">
+          Submit
+        </goa-button>
+      </div>
     </form>
-  </div>
+  </goa-container>
 </template>
 
 <script setup>
@@ -58,6 +69,14 @@ const isFormValid = computed(() => {
          !errors.date
 })
 
+const handleNameChange = (event) => {
+  formData.name = event.detail.value
+}
+
+const handleDateChange = (event) => {
+  formData.date = event.detail.value
+}
+
 const handleSubmit = () => {
   if (validateForm()) {
     const sanitizedData = {
@@ -72,23 +91,24 @@ const handleSubmit = () => {
 </script>
 
 <style scoped>
-.form-container {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
 .form-title {
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
+  color: var(--goa-color-text-default);
+  margin-bottom: var(--goa-space-l);
   text-align: center;
-  font-size: 1.75rem;
+  font-size: var(--goa-font-size-6);
+  font-weight: 700;
 }
 
 .hello-form {
   max-width: 400px;
   margin: 0 auto;
+}
+
+.form-actions {
+  text-align: center;
+}
+</style>
+
 }
 
 .required {

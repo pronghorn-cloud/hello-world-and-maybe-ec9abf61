@@ -1,8 +1,7 @@
 <template>
-  <button class="back-button btn btn-secondary" @click="handleBack">
-    <span class="back-icon">←</span>
-    <span class="back-text">{{ text }}</span>
-  </button>
+  <goa-button type="secondary" leadingicon="arrow-back" @_click="handleBack">
+    {{ text }}
+  </goa-button>
 </template>
 
 <script setup>
@@ -27,15 +26,9 @@ const handleBack = () => {
 </script>
 
 <style scoped>
-.back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+/* GOA button component is pre-styled - no custom styles needed */
+</style>
 
-.back-icon {
-  font-size: 1.2rem;
-}
 
 .back-text {
   font-size: 1rem;

@@ -1,7 +1,7 @@
 <template>
-  <div class="response-message">
-    <p class="greeting">{{ message }}</p>
-  </div>
+  <goa-callout type="success" heading="Welcome!">
+    {{ message }}
+  </goa-callout>
 </template>
 
 <script setup>
@@ -24,21 +24,9 @@ const message = computed(() => {
 </script>
 
 <style scoped>
-.response-message {
-  background: linear-gradient(135deg, #e8f4fd 0%, #d4e9f7 100%);
-  border-radius: 12px;
-  padding: 2rem;
-  text-align: center;
-  margin: 2rem 0;
-  box-shadow: 0 4px 15px rgba(74, 144, 217, 0.1);
-}
+/* GOA callout component is pre-styled - no custom styles needed */
+</style>
 
-.greeting {
-  font-size: 1.5rem;
-  color: #2c3e50;
-  margin: 0;
-  font-weight: 500;
-}
 
 @media (max-width: 768px) {
   .response-message {
