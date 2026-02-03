@@ -7,7 +7,7 @@ defineOptions({
   name: 'ResponseMessage',
 });
 
-const props = defineProps({
+defineProps({
   message: {
     type: String,
     required: true,
