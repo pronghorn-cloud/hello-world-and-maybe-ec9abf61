@@ -10,7 +10,7 @@
             <a href="https://www.alberta.ca/privacystatement.aspx" class="goa-footer__link">Privacy</a>
           </li>
           <li>
-            <a href="https://www.alberta.ca/disclaimer.aspx" class="goa-footer__link">Terms of Use</a>
+            <a href="https://www.alberta.ca/disclaimer.aspx" class="goa-footer__link">Terms of use</a>
           </li>
         </ul>
       </nav>
@@ -24,13 +24,23 @@
 <script setup>
 import { computed } from 'vue'
 
-// GOA Footer Component - Strictly follows GOA Design System standards
-// Reference: https://design.alberta.ca/components/footer
+/**
+ * GOA Footer Component
+ * 
+ * Compliance:
+ * - ADS-001: Accessible navigation with proper ARIA labels
+ * - ADS-003: Clear, human-centered link text
+ * - ADS-004: Uses GOA design tokens for colors, spacing, typography
+ * - ADS-005: Follows GOA Design System footer pattern
+ * - ADS-006: Semantic HTML with contentinfo landmark
+ * - ADS-010: Supplementary styling using GOA CSS custom properties
+ */
 
 const currentYear = computed(() => new Date().getFullYear())
 </script>
 
 <style scoped>
+/* ADS-004: Design Tokens - Footer uses black background per GOA standard */
 .goa-footer {
   background-color: var(--goa-color-black);
   color: var(--goa-color-white);
@@ -48,6 +58,7 @@ const currentYear = computed(() => new Date().getFullYear())
   margin-bottom: var(--goa-space-md);
 }
 
+/* ADS-007: Information Architecture - Logical content grouping */
 .goa-footer__links {
   display: flex;
   flex-wrap: wrap;
@@ -57,6 +68,7 @@ const currentYear = computed(() => new Date().getFullYear())
   margin: 0;
 }
 
+/* ADS-004: Design Tokens - Link styling with proper contrast */
 .goa-footer__link {
   color: var(--goa-color-white);
   text-decoration: underline;
@@ -71,6 +83,7 @@ const currentYear = computed(() => new Date().getFullYear())
   color: var(--goa-color-greyscale-200);
 }
 
+/* ADS-001: Accessibility - Visible focus indicators */
 .goa-footer__link:focus {
   outline: none;
   box-shadow: var(--goa-focus-box-shadow);
@@ -96,24 +109,11 @@ const currentYear = computed(() => new Date().getFullYear())
   margin: 0;
 }
 
+/* ADS-005: Responsive design following GOA breakpoints */
 @media (max-width: 480px) {
   .goa-footer__links {
     flex-direction: column;
     gap: var(--goa-space-sm);
-  }
-}
-</style>
-
-.goa-footer__copyright {
-  font-size: 0.875rem;
-  color: var(--goa-color-greyscale-200);
-  margin: 0;
-}
-
-@media (max-width: 480px) {
-  .goa-footer__links {
-    flex-direction: column;
-    gap: 0.75rem;
   }
 }
 </style>

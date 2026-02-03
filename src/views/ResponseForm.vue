@@ -15,28 +15,28 @@
             class="goa-button goa-button--secondary"
             @click="goBack"
           >
-            <span aria-hidden="true">←</span> Go Back
+            <span aria-hidden="true">←</span> Go back
           </button>
           <button 
             type="button" 
             class="goa-button goa-button--primary"
             @click="startOver"
           >
-            Start Over
+            Start over
           </button>
         </div>
       </template>
       
       <template v-else>
         <div class="goa-response-form__empty">
-          <h1>No Name Provided</h1>
-          <p>It looks like you haven't entered your name yet. Please go back to enter your information.</p>
+          <h1>No name provided</h1>
+          <p>You haven't entered your name yet. Go back to enter your information.</p>
           <button 
             type="button" 
             class="goa-button goa-button--primary"
             @click="goToEntry"
           >
-            Enter Your Name
+            Enter your name
           </button>
         </div>
       </template>
@@ -48,13 +48,24 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-// GOA Response Form - Strictly follows GOA Design System standards
+/**
+ * GOA Response Form Component
+ * 
+ * Compliance:
+ * - ADS-001: WCAG 2.2 AA with live regions for dynamic content
+ * - ADS-003: Clear, human-centered messaging and button labels
+ * - ADS-004: Uses GOA design tokens for all visual styling
+ * - ADS-005: Follows GOA Design System patterns (callouts, buttons)
+ * - ADS-006: Semantic HTML with proper heading hierarchy
+ * - ADS-007: Logical information architecture (greeting > confirmation > actions)
+ * - ADS-008: State management for user data retrieval and navigation
+ * - ADS-010: Supplementary styling using GOA CSS custom properties
+ */
 
 const router = useRouter()
 const userName = ref('')
 
 onMounted(() => {
-  // Retrieve name from sessionStorage
   const storedName = sessionStorage.getItem('userName')
   if (storedName) {
     userName.value = storedName
@@ -62,14 +73,14 @@ onMounted(() => {
 })
 
 /**
- * Navigate back to entry form (preserves data)
+ * ADS-008: Navigate back to entry form (preserves session data)
  */
 function goBack() {
   router.push({ name: 'EntryForm' })
 }
 
 /**
- * Clear data and start fresh
+ * ADS-008: Clear session data and restart flow
  */
 function startOver() {
   sessionStorage.removeItem('userName')
@@ -77,7 +88,7 @@ function startOver() {
 }
 
 /**
- * Navigate to entry form when no data exists
+ * ADS-008: Navigate to entry form when no data exists
  */
 function goToEntry() {
   router.push({ name: 'EntryForm' })
@@ -85,11 +96,13 @@ function goToEntry() {
 </script>
 
 <style scoped>
+/* ADS-007: Content container with appropriate max-width */
 .goa-response-form {
   max-width: 600px;
   margin: 0 auto;
 }
 
+/* ADS-004: Design Tokens - Success color for positive feedback */
 .goa-response-form__greeting {
   color: var(--goa-color-success);
   margin-bottom: var(--goa-space-2xs);
@@ -102,6 +115,7 @@ function goToEntry() {
   color: var(--goa-color-text);
 }
 
+/* ADS-007: Action buttons grouped logically */
 .goa-response-form__actions {
   display: flex;
   flex-wrap: wrap;
@@ -124,6 +138,7 @@ function goToEntry() {
   color: var(--goa-color-text-secondary);
 }
 
+/* ADS-005: Responsive adjustments */
 @media (max-width: 480px) {
   .goa-response-form .goa-card {
     padding: var(--goa-space-md);
@@ -134,47 +149,6 @@ function goToEntry() {
   }
   
   .goa-response-form__actions .goa-button {
-    width: 100%;
-  }
-}
-</style>
-}
-
-.greeting-message {
-  margin-bottom: 0;
-  font-size: var(--goa-font-size-lg);
-}
-
-.response-actions {
-  display: flex;
-  gap: var(--goa-space-md);
-  margin-top: var(--goa-space-xl);
-  flex-wrap: wrap;
-}
-
-.no-data {
-  text-align: center;
-}
-
-.no-data h1 {
-  color: var(--goa-color-greyscale-700);
-}
-
-.no-data p {
-  margin-bottom: var(--goa-space-xl);
-  color: var(--goa-color-greyscale-700);
-}
-
-@media (max-width: 480px) {
-  .response-form .goa-card {
-    padding: var(--goa-space-lg);
-  }
-  
-  .response-actions {
-    flex-direction: column;
-  }
-  
-  .response-actions .goa-button {
     width: 100%;
   }
 }

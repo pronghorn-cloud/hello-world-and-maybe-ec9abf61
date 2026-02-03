@@ -2,7 +2,7 @@
   <header class="goa-header" role="banner">
     <a href="#main-content" class="goa-skip-link">Skip to main content</a>
     <div class="goa-header__container">
-      <a href="https://www.alberta.ca" class="goa-header__logo" aria-label="Alberta.ca">
+      <a href="https://www.alberta.ca" class="goa-header__logo" aria-label="Government of Alberta homepage">
         <svg class="goa-header__logo-svg" viewBox="0 0 130 30" role="img" aria-hidden="true" focusable="false">
           <text x="0" y="22" fill="currentColor" font-size="18" font-weight="700">Alberta.ca</text>
         </svg>
@@ -15,17 +15,27 @@
 </template>
 
 <script setup>
-// GOA Header Component - Strictly follows GOA Design System standards
-// Reference: https://design.alberta.ca/components/header
+/**
+ * GOA Header Component
+ * 
+ * Compliance:
+ * - ADS-001: Skip link for keyboard accessibility (WCAG 2.2 AA)
+ * - ADS-004: Uses GOA design tokens for colors, spacing, typography
+ * - ADS-005: Follows GOA Design System header pattern
+ * - ADS-006: Semantic HTML with proper ARIA landmarks (role="banner")
+ * - ADS-010: Supplementary styling using GOA CSS custom properties
+ */
 </script>
 
 <style scoped>
+/* ADS-004: Design Tokens - Primary brand color */
 .goa-header {
   background-color: var(--goa-color-primary);
   color: var(--goa-color-white);
   padding: 0;
 }
 
+/* ADS-004: Design Tokens - Spacing uses 8px grid system */
 .goa-header__container {
   max-width: 1200px;
   margin: 0 auto;
@@ -37,6 +47,7 @@
   min-height: 64px;
 }
 
+/* ADS-001: Accessibility - Interactive elements have adequate touch targets */
 .goa-header__logo {
   display: inline-flex;
   align-items: center;
@@ -51,6 +62,7 @@
   opacity: 0.9;
 }
 
+/* ADS-001: Accessibility - Visible focus indicators */
 .goa-header__logo:focus {
   outline: none;
   box-shadow: var(--goa-focus-box-shadow);
@@ -76,6 +88,7 @@
   align-items: center;
 }
 
+/* ADS-004: Design Tokens - Typography scale */
 .goa-header__service-name {
   font-size: var(--goa-font-size-lg);
   font-weight: var(--goa-font-weight-bold);
@@ -83,6 +96,7 @@
   letter-spacing: -0.01em;
 }
 
+/* ADS-005: Responsive design following GOA breakpoints */
 @media (max-width: 480px) {
   .goa-header__container {
     flex-direction: column;
@@ -94,21 +108,6 @@
   
   .goa-header__service-name {
     font-size: var(--goa-font-size-base);
-  }
-}
-</style>
-  color: var(--goa-color-white);
-}
-
-@media (max-width: 480px) {
-  .goa-header__container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .goa-header__app-name {
-    font-size: 1.25rem;
   }
 }
 </style>
