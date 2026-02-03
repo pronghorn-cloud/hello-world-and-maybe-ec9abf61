@@ -19,5 +19,4 @@ import AppFooter from './components/AppFooter.vue'
 /* Layout handled by GOA utility classes - no additional styles needed */
 </style>
 
-}
-</style>
+

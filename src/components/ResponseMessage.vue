@@ -27,14 +27,3 @@ const message = computed(() => {
 /* GOA callout component is pre-styled - no custom styles needed */
 </style>
 
-
-@media (max-width: 768px) {
-  .response-message {
-    padding: 1.5rem;
-  }
-
-  .greeting {
-    font-size: 1.25rem;
-  }
-}
-</style>

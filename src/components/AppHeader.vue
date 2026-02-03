@@ -12,8 +12,3 @@
 /* GOA components are pre-styled - no custom styles needed */
 </style>
 
-  .header-title {
-    font-size: 1.5rem;
-  }
-}
-</style>

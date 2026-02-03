@@ -18,6 +18,3 @@ const currentYear = computed(() => new Date().getFullYear())
   font-size: var(--goa-font-size-1);
 }
 </style>
-
-}
-</style>

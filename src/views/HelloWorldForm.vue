@@ -108,32 +108,3 @@ const handleSubmit = () => {
   text-align: center;
 }
 </style>
-
-}
-
-.required {
-  color: #e74c3c;
-}
-
-.error-message {
-  display: block;
-  color: #e74c3c;
-  font-size: 0.85rem;
-  margin-top: 0.25rem;
-}
-
-.btn-primary {
-  width: 100%;
-  margin-top: 1rem;
-}
-
-@media (max-width: 768px) {
-  .form-container {
-    padding: 1.5rem;
-  }
-
-  .form-title {
-    font-size: 1.5rem;
-  }
-}
-</style>

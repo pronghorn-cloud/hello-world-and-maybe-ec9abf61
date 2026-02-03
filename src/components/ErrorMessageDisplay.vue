@@ -17,10 +17,3 @@ defineProps({
 /* GOA callout component is pre-styled - no custom styles needed */
 </style>
 
-}
-
-.error-text {
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-</style>

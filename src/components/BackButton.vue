@@ -28,9 +28,3 @@ const handleBack = () => {
 <style scoped>
 /* GOA button component is pre-styled - no custom styles needed */
 </style>
-
-
-.back-text {
-  font-size: 1rem;
-}
-</style>
