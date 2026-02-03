@@ -13,7 +13,7 @@ defineOptions({
     <goa-microsite-header
       type="alpha"
       version="Hello World App"
-    />
+    ></goa-microsite-header>
   </header>
 </template>
 

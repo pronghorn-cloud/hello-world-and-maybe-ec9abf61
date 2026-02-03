@@ -10,7 +10,7 @@ defineOptions({
 
 <template>
   <footer>
-    <goa-app-footer />
+    <goa-app-footer></goa-app-footer>
   </footer>
 </template>
 

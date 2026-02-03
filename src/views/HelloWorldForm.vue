@@ -101,18 +101,18 @@ onMounted(() => {
           id="name-input"
           name="name"
           type="text"
-          :value="formData.name"
+          :value.prop="formData.name"
           placeholder="Enter your name"
           width="100%"
           maxlength="100"
           @_change="handleNameInput"
-        />
+        ></goa-input>
       </goa-form-item>
 
       <div class="action-bar">
         <goa-button
           type="primary"
-          :disabled="isSubmitting"
+          :disabled.prop="isSubmitting"
           @_click="handleSubmit"
         >
           {{ isSubmitting ? 'Submitting...' : 'Submit' }}
@@ -120,7 +120,7 @@ onMounted(() => {
 
         <goa-button
           type="secondary"
-          :disabled="isSubmitting"
+          :disabled.prop="isSubmitting"
           @_click="handleReset"
         >
           Reset
