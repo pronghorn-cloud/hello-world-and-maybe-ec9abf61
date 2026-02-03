@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World App - Form</title>
+    <style>
+        /* GOA Design System - Core Variables */
+        :root {
+            --goa-color-primary: #0070c4;
+            --goa-color-primary-dark: #004f84;
+            --goa-color-secondary: #333333;
+            --goa-color-background: #f1f1f1;
+            --goa-color-white: #ffffff;
+            --goa-color-error: #d93e21;
+            --goa-color-border: #666666;
+            --goa-color-focus: #ffc107;
+            --goa-font-family: 'Acumin Pro Semi Condensed', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            --goa-spacing-xs: 0.25rem;
+            --goa-spacing-sm: 0.5rem;
+            --goa-spacing-md: 1rem;
+            --goa-spacing-lg: 1.5rem;
+            --goa-spacing-xl: 2rem;
+            --goa-border-radius: 4px;
+        }
+
+        /* Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--goa-font-family);
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--goa-color-secondary);
+            background-color: var(--goa-color-background);
+        }
+
+        /* Skip Link for Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--goa-color-primary);
+            color: var(--goa-color-white);
+            padding: var(--goa-spacing-sm) var(--goa-spacing-md);
+            text-decoration: none;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Header */
+        .goa-header {
+            background-color: var(--goa-color-primary);
+            color: var(--goa-color-white);
+            padding: var(--goa-spacing-md) var(--goa-spacing-xl);
+        }
+
+        .goa-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 600px;
+            margin: var(--goa-spacing-xl) auto;
+            padding: var(--goa-spacing-xl);
+            background-color: var(--goa-color-white);
+            border-radius: var(--goa-border-radius);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--goa-color-secondary);
+            font-size: 1.75rem;
+        }
+
+        /* Form Styles */
+        .goa-form-group {
+            margin-bottom: var(--goa-spacing-lg);
+        }
+
+        .goa-label {
+            display: block;
+            margin-bottom: var(--goa-spacing-xs);
+            font-weight: 600;
+            color: var(--goa-color-secondary);
+        }
+
+        .goa-label .required {
+            color: var(--goa-color-error);
+            margin-left: var(--goa-spacing-xs);
+        }
+
+        .goa-hint {
+            display: block;
+            margin-bottom: var(--goa-spacing-xs);
+            font-size: 0.875rem;
+            color: #666666;
+        }
+
+        /* Input Field Component */
+        .goa-input {
+            width: 100%;
+            padding: var(--goa-spacing-sm) var(--goa-spacing-md);
+            font-size: 1rem;
+            font-family: inherit;
+            border: 2px solid var(--goa-color-border);
+            border-radius: var(--goa-border-radius);
+            background-color: var(--goa-color-white);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .goa-input:hover {
+            border-color: var(--goa-color-primary);
+        }
+
+        .goa-input:focus {
+            outline: none;
+            border-color: var(--goa-color-primary);
+            box-shadow: 0 0 0 3px var(--goa-color-focus);
+        }
+
+        .goa-input:invalid:not(:placeholder-shown) {
+            border-color: var(--goa-color-error);
+        }
+
+        /* Date Picker Control */
+        .goa-date-input {
+            width: 100%;
+            max-width: 200px;
+            padding: var(--goa-spacing-sm) var(--goa-spacing-md);
+            font-size: 1rem;
+            font-family: inherit;
+            border: 2px solid var(--goa-color-border);
+            border-radius: var(--goa-border-radius);
+            background-color: var(--goa-color-white);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .goa-date-input:hover {
+            border-color: var(--goa-color-primary);
+        }
+
+        .goa-date-input:focus {
+            outline: none;
+            border-color: var(--goa-color-primary);
+            box-shadow: 0 0 0 3px var(--goa-color-focus);
+        }
+
+        /* Submit Button Component */
+        .goa-button {
+            display: inline-block;
+            padding: var(--goa-spacing-sm) var(--goa-spacing-xl);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            border: 2px solid transparent;
+            border-radius: var(--goa-border-radius);
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .goa-button--primary {
+            background-color: var(--goa-color-primary);
+            color: var(--goa-color-white);
+            border-color: var(--goa-color-primary);
+        }
+
+        .goa-button--primary:hover {
+            background-color: var(--goa-color-primary-dark);
+            border-color: var(--goa-color-primary-dark);
+        }
+
+        .goa-button--primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px var(--goa-color-focus);
+        }
+
+        .goa-button--primary:active {
+            background-color: var(--goa-color-primary-dark);
+        }
+
+        /* Error Message */
+        .goa-error-message {
+            display: none;
+            color: var(--goa-color-error);
+            font-size: 0.875rem;
+            margin-top: var(--goa-spacing-xs);
+        }
+
+        .goa-error-message::before {
+            content: "⚠ ";
+        }
+
+        /* Footer */
+        .goa-footer {
+            background-color: var(--goa-color-secondary);
+            color: var(--goa-color-white);
+            padding: var(--goa-spacing-lg) var(--goa-spacing-xl);
+            text-align: center;
+            margin-top: var(--goa-spacing-xl);
+        }
+
+        .goa-footer p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                margin: var(--goa-spacing-md);
+                padding: var(--goa-spacing-md);
+            }
+
+            .goa-header {
+                padding: var(--goa-spacing-md);
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .goa-input,
+            .goa-date-input {
+                border-width: 3px;
+            }
+
+            .goa-button {
+                border-width: 3px;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Keyboard Navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header -->
+    <header class="goa-header" role="banner">
+        <h1>Hello World App</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <h2>Welcome</h2>
+        <p>Please enter your information below to receive a personalized greeting.</p>
+
+        <form id="greeting-form" action="response.html" method="GET" novalidate>
+            <!-- Name Input Field Component -->
+            <div class="goa-form-group">
+                <label for="name-input" class="goa-label">
+                    Your Name
+                    <span class="required" aria-hidden="true">*</span>
+                </label>
+                <span id="name-hint" class="goa-hint">Enter your name</span>
+                <input 
+                    type="text" 
+                    id="name-input" 
+                    name="name" 
+                    class="goa-input" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="name-hint"
+                    placeholder="e.g., John Smith"
+                    autocomplete="name"
+                    maxlength="100"
+                >
+                <span class="goa-error-message" id="name-error" role="alert" aria-live="polite">
+                    Please enter your name
+                </span>
+            </div>
+
+            <!-- Date Picker Control Component -->
+            <div class="goa-form-group">
+                <label for="date-input" class="goa-label">
+                    Select a Date
+                    <span class="required" aria-hidden="true">*</span>
+                </label>
+                <span id="date-hint" class="goa-hint">Choose a date for your greeting (YYYY-MM-DD)</span>
+                <input 
+                    type="date" 
+                    id="date-input" 
+                    name="date" 
+                    class="goa-date-input" 
+                    required 
+                    aria-required="true"
+                    aria-describedby="date-hint"
+                >
+                <span class="goa-error-message" id="date-error" role="alert" aria-live="polite">
+                    Please select a date
+                </span>
+            </div>
+
+            <!-- Submit Button Component -->
+            <div class="goa-form-group">
+                <button type="submit" class="goa-button goa-button--primary">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <footer class="goa-footer" role="contentinfo">
+        <p>&copy; 2024 Hello World App. Built with GOA Design System standards.</p>
+    </footer>
+
+    <!-- Form Validation Script -->
+    <script>
+        (function() {
+            'use strict';
+
+            var form = document.getElementById('greeting-form');
+            var nameInput = document.getElementById('name-input');
+            var dateInput = document.getElementById('date-input');
+            var nameError = document.getElementById('name-error');
+            var dateError = document.getElementById('date-error');
+
+            // Show error message
+            function showError(input, errorElement) {
+                input.setAttribute('aria-invalid', 'true');
+                errorElement.style.display = 'block';
+                input.style.borderColor = 'var(--goa-color-error)';
+            }
+
+            // Hide error message
+            function hideError(input, errorElement) {
+                input.setAttribute('aria-invalid', 'false');
+                errorElement.style.display = 'none';
+                input.style.borderColor = '';
+            }
+
+            // Validate name field
+            function validateName() {
+                if (!nameInput.value.trim()) {
+                    showError(nameInput, nameError);
+                    return false;
+                }
+                hideError(nameInput, nameError);
+                return true;
+            }
+
+            // Validate date field
+            function validateDate() {
+                if (!dateInput.value) {
+                    showError(dateInput, dateError);
+                    return false;
+                }
+                hideError(dateInput, dateError);
+                return true;
+            }
+
+            // Real-time validation on blur
+            nameInput.addEventListener('blur', validateName);
+            dateInput.addEventListener('blur', validateDate);
+
+            // Clear error on input
+            nameInput.addEventListener('input', function() {
+                if (nameInput.value.trim()) {
+                    hideError(nameInput, nameError);
+                }
+            });
+
+            dateInput.addEventListener('change', function() {
+                if (dateInput.value) {
+                    hideError(dateInput, dateError);
+                }
+            });
+
+            // Form submission validation
+            form.addEventListener('submit', function(event) {
+                var isNameValid = validateName();
+                var isDateValid = validateDate();
+
+                if (!isNameValid || !isDateValid) {
+                    event.preventDefault();
+                    
+                    // Focus first invalid field
+                    if (!isNameValid) {
+                        nameInput.focus();
+                    } else if (!isDateValid) {
+                        dateInput.focus();
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html> 
